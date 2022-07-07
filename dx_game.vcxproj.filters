@@ -1,0 +1,265 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="program">
+      <UniqueIdentifier>{884ce5fe-c184-4353-82a5-af23c1629c96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\game">
+      <UniqueIdentifier>{73faf93d-726b-44ae-bc7b-9fef24c1ee4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\system">
+      <UniqueIdentifier>{8a788238-9649-41be-826e-7c3f8f8bc90c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\library">
+      <UniqueIdentifier>{7c942d65-0a18-4117-88ae-e80f1655e00f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\dxlib_ext">
+      <UniqueIdentifier>{2ec10bbe-233c-4600-8bfb-6dfe939ccbeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\game\Sequence">
+      <UniqueIdentifier>{88850de4-fa39-4cd6-a3a0-0cdf4799223f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\game\Sequence\PlayGame">
+      <UniqueIdentifier>{57d54964-4e54-44d0-a39f-b4e34d865993}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\game\ShareInfo">
+      <UniqueIdentifier>{f3eef048-160f-4f86-ac4e-9545513d6cd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\game\Camera">
+      <UniqueIdentifier>{ad6baa7a-1cb5-4573-8b72-20cf05c556e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\game\Utility">
+      <UniqueIdentifier>{9ff62b0f-98ab-4b43-9fe3-17af435cfad3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\game\Ui">
+      <UniqueIdentifier>{62435a3f-2068-427f-b92b-825959041390}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\game\Function">
+      <UniqueIdentifier>{088ed4f6-831a-46ea-961b-63ca91cb727f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\game\GameObject">
+      <UniqueIdentifier>{7234b345-899b-49d9-826f-b98682585714}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\game\Sound">
+      <UniqueIdentifier>{03e2f294-d702-433c-be1d-a65edc909fed}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="program\system\sys_main.cpp">
+      <Filter>program\system</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\game_main.cpp">
+      <Filter>program\game</Filter>
+    </ClCompile>
+    <ClCompile Include="program\library\tnl_font_texture.cpp">
+      <Filter>program\library</Filter>
+    </ClCompile>
+    <ClCompile Include="program\library\tnl_input.cpp">
+      <Filter>program\library</Filter>
+    </ClCompile>
+    <ClCompile Include="program\library\tnl_intersect.cpp">
+      <Filter>program\library</Filter>
+    </ClCompile>
+    <ClCompile Include="program\library\tnl_json.cpp">
+      <Filter>program\library</Filter>
+    </ClCompile>
+    <ClCompile Include="program\library\tnl_math.cpp">
+      <Filter>program\library</Filter>
+    </ClCompile>
+    <ClCompile Include="program\library\tnl_matrix.cpp">
+      <Filter>program\library</Filter>
+    </ClCompile>
+    <ClCompile Include="program\library\tnl_quaternion.cpp">
+      <Filter>program\library</Filter>
+    </ClCompile>
+    <ClCompile Include="program\library\tnl_util.cpp">
+      <Filter>program\library</Filter>
+    </ClCompile>
+    <ClCompile Include="program\library\tnl_vector.cpp">
+      <Filter>program\library</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\dxlib_ext.cpp">
+      <Filter>program\dxlib_ext</Filter>
+    </ClCompile>
+    <ClCompile Include="program\library\tnl_seek_unit.cpp">
+      <Filter>program\library</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Sequence\CTitleScene.cpp">
+      <Filter>program\game\Sequence</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Sequence\CPrimaryController.cpp">
+      <Filter>program\game\Sequence</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Sequence\PlayGame\CPlayScene.cpp">
+      <Filter>program\game\Sequence\PlayGame</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Sequence\PlayGame\CSecondaryController.cpp">
+      <Filter>program\game\Sequence\PlayGame</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Sequence\PlayGame\CLoadingScene.cpp">
+      <Filter>program\game\Sequence\PlayGame</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\ShareInfo\CDocGameInfo.cpp">
+      <Filter>program\game\ShareInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Camera\CCamera2D.cpp">
+      <Filter>program\game\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Utility\CMath.cpp">
+      <Filter>program\game\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Ui\CUiController.cpp">
+      <Filter>program\game\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Utility\CUtility.cpp">
+      <Filter>program\game\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Ui\CUiBarrier.cpp">
+      <Filter>program\game\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Ui\CUiTrilemma.cpp">
+      <Filter>program\game\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Ui\CUiTimeLimit.cpp">
+      <Filter>program\game\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Sequence\PlayGame\CGameOverScene.cpp">
+      <Filter>program\game\Sequence\PlayGame</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\CGameDirector.cpp">
+      <Filter>program\game</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Function\CBarrier.cpp">
+      <Filter>program\game\Function</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Function\CFunctionController.cpp">
+      <Filter>program\game\Function</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Function\CHitPoint.cpp">
+      <Filter>program\game\Function</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Function\CStageControl.cpp">
+      <Filter>program\game\Function</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Sequence\PlayGame\CClearScene.cpp">
+      <Filter>program\game\Sequence\PlayGame</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\GameObject\CPlayerCharacter.cpp">
+      <Filter>program\game\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Ui\CUiCoinNumber.cpp">
+      <Filter>program\game\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Sequence\PlayGame\CPauseScene.cpp">
+      <Filter>program\game\Sequence\PlayGame</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Sequence\PlayGame\CScoreScene.cpp">
+      <Filter>program\game\Sequence\PlayGame</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Sequence\PlayGame\CHelpScene.cpp">
+      <Filter>program\game\Sequence\PlayGame</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Utility\CMenu.cpp">
+      <Filter>program\game\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\GameObject\AFixedObject.cpp">
+      <Filter>program\game\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\GameObject\AMoveObject.cpp">
+      <Filter>program\game\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Sound\CSoundManager.cpp">
+      <Filter>program\game\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\GameObject\CBackGround.cpp">
+      <Filter>program\game\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Utility\CImageManager.cpp">
+      <Filter>program\game\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\GameObject\CMoveObjectManager.cpp">
+      <Filter>program\game\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\GameObject\CFixedEnemy.cpp">
+      <Filter>program\game\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\GameObject\CFixedFloor.cpp">
+      <Filter>program\game\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\GameObject\CItemManager.cpp">
+      <Filter>program\game\GameObject</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="program\game\game_main.h">
+      <Filter>program\game</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\picojson.h">
+      <Filter>program\library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\stb_image.h">
+      <Filter>program\library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_flyweight_map.h">
+      <Filter>program\library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_font_texture.h">
+      <Filter>program\library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_hierarchy_tree.h">
+      <Filter>program\library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_input.h">
+      <Filter>program\library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_intersect.h">
+      <Filter>program\library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_json.h">
+      <Filter>program\library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_link_linear.h">
+      <Filter>program\library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_math.h">
+      <Filter>program\library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_matrix.h">
+      <Filter>program\library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_quaternion.h">
+      <Filter>program\library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_sequence.h">
+      <Filter>program\library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_shared_factory.h">
+      <Filter>program\library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_timer_callback.h">
+      <Filter>program\library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_timer_fluct.h">
+      <Filter>program\library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_using.h">
+      <Filter>program\library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_util.h">
+      <Filter>program\library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_vector.h">
+      <Filter>program\library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\dxlib_ext\dxlib_ext.h">
+      <Filter>program\dxlib_ext</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_seek_unit.h">
+      <Filter>program\library</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

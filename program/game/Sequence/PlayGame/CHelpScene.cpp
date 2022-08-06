@@ -1,118 +1,91 @@
+//****************************************************************************
+// ファイル名：CHelpScene(ヘルプ画面)
+// 作　成　日：2022/08/05
 #include "CHelpScene.h"
 #include "CPauseScene.h"
 #include "CSecondaryController.h"
 
 #include "../../CGameDirector.h"
-#include "../../Utility/CMenu.h"
 #include "../../ShareInfo/CDocGameInfo.h"
-
-namespace {
-// TODO：メッセージ系もCSVにしたい
-const std::string COMMAND_MOVE_R		= "Dキ－";
-const std::string COMMAND_MOVE_L		= "Aキ－";
-const std::string COMMAND_JUMP			= "SPACE";
-const std::string COMMAND_DASH			= "L SHIFT";
-const std::string COMMAND_BARRIER		= "Bキ－";
-const std::string COMMAND_CHANGE_UP		= "Wキ－";
-const std::string COMMAND_CHANGE_DOWN	= "Sキ－";
-const std::string COMMAND_PAUSE			= "Gキ－";
-const std::vector<std::string> operate_text = {
-	COMMAND_MOVE_R, COMMAND_MOVE_L, COMMAND_JUMP, COMMAND_DASH,
-	COMMAND_BARRIER, COMMAND_CHANGE_UP, COMMAND_CHANGE_DOWN, COMMAND_PAUSE
-};
-
-const std::string OPE_NAME_MOVE_R		= "移動：右方向";
-const std::string OPE_NAME_MOVE_L		= "移動：左方向";
-const std::string OPE_NAME_JUMP			= "ジャンプ";
-const std::string OPE_NAME_DASH			= "ダッシュ";
-const std::string OPE_NAME_BARRIER		= "バリア展開";
-const std::string OPE_NAME_CHANGE_UP	= "バリア切替：上方向";
-const std::string OPE_NAME_CHANGE_DOWN	= "バリア切替：下方向";
-const std::string OPE_NAME_PAUSE		= "ポーズ/ポーズ解除";
-const std::vector<std::string> action_text = {
-	OPE_NAME_MOVE_R, OPE_NAME_MOVE_L, OPE_NAME_JUMP, OPE_NAME_DASH,
-	OPE_NAME_BARRIER, OPE_NAME_CHANGE_UP, OPE_NAME_CHANGE_DOWN, OPE_NAME_PAUSE
-};
-
-const int FIRST_LABEL_X = 400;	// ラベル座標：X軸
-const int FIRST_LABEL_Y = 250;	// ラベル座標：Y軸
-
-const int TITLE_LABEL_X = 450;	// ラベル座標：X軸
-const int TITLE_LABEL_Y = 450;	// ラベル座標：Y軸
-
-const int ALIGNMENT_X = 20;		// ラベル表示間隔：X軸
-const int ALIGNMENT_Y = 20;		// ラベル表示間隔：Y軸
-
-const std::string RETURN_TEXT = "戻る";
-std::vector<std::string> message_text = { RETURN_TEXT };
-
-std::tuple<bool, std::string> result;
-}
 
 namespace Sequence
 {
 namespace PlayGame
 {
 CHelpScene::CHelpScene()
+: AMenuScene("resource/sceneInfo/HelpSceneInfo.csv")
+, m_msgPosX(0), m_msgPosY(0)
+, m_msgAlignmentPosX(0), m_msgAlignmentPosY(0)
+, m_selectMenu(-1)
 {
-	result = std::make_tuple(false, "");
-	Utility::SelectReset();
+	m_helpMsgDatas = tnl::LoadCsv("resource/sceneInfo/message/HelpSceneMessage.csv");
+
+	// メッセージリスト
+	std::vector<std::string> commandList = m_helpMsgDatas[0];
+	std::vector<std::string> operationList = m_helpMsgDatas[1];
+	if(commandList.size() == operationList.size()){
+		for (int i = 1; i < commandList.size(); ++i) {
+			std::string command = commandList[i].c_str();
+			std::string operation = operationList[i].c_str();
+			m_helpList.push_back(std::make_pair(command, operation));
+		}
+	}else{
+		tnl::DebugTrace("CHelpScene->Error List size\n");
+	}
+
+	m_msgPosX = atoi(m_helpMsgDatas[2][1].c_str());
+	m_msgPosY = atoi(m_helpMsgDatas[2][2].c_str());
+	m_msgAlignmentPosX = atoi(m_helpMsgDatas[3][1].c_str());
+	m_msgAlignmentPosY = atoi(m_helpMsgDatas[3][2].c_str());
 }
 
 CHelpScene::~CHelpScene()
 {}
 
+//****************************************************************************
+// 関数名：Update
+// 概　要：画面更新
+// 引　数：第1引数	一次管理者
+//		   第2引数	ゲーム情報
+// 戻り値：なし
+// 詳　細：各種画面で必要な処理を行う
+//****************************************************************************
 IScene* CHelpScene::Update(CSecondaryController& controller, ShareInfo::CDocGameInfo& info)
 {
-	IScene* next_scene = this;
+	IScene* nextScene = this;
 
 	// ゲーム画面でヘルプ画面を表示
 	if(info.GetPrevScene() == PAUSE_SCENE){
 		controller.GetGameInstance()->Draw();
 	}
 
-	// コマンドテキスト描画
-	for(int i = 0; i < operate_text.size(); i++){
-		DrawStringEx(FIRST_LABEL_X, FIRST_LABEL_Y + i * ALIGNMENT_Y, GetColor(255, 255, 0), "%s", operate_text[i].c_str());
-	}
-
-	// 区切り文字描画
-	for(int i = 0; i < operate_text.size(); i++){
-		DrawStringEx(FIRST_LABEL_X + 75, FIRST_LABEL_Y + i * ALIGNMENT_Y, GetColor(255, 255, 0), "%s", "：");
-	}
-
-	// 操作テキスト描画
-	for(int i = 0; i < action_text.size(); i++){
-		DrawStringEx(FIRST_LABEL_X + 100, FIRST_LABEL_Y + i * ALIGNMENT_Y, GetColor(255, 255, 0), "%s", action_text[i].c_str());
+	int counter = 0;
+	for(auto& [command, operation] : m_helpList){
+		DrawStringEx(m_msgPosX,						 m_msgPosY + counter * m_alignmentY, GetColor(255, 255, 0), "%s", command.c_str());
+		DrawStringEx(m_msgPosX + 75,				 m_msgPosY + counter * m_alignmentY, GetColor(255, 255, 0), "%s", "：");
+		DrawStringEx(m_msgPosX + m_msgAlignmentPosX, m_msgPosY + counter * m_alignmentY, GetColor(255, 255, 0), "%s", operation.c_str());
+		counter++;
 	}
 
 	// メニュー選択
-	Utility::MenuDraw(message_text,
-					  TITLE_LABEL_X, TITLE_LABEL_Y,
-					  ALIGNMENT_X, ALIGNMENT_Y,
-					  GetColor(255, 255, 0), GetColor(255, 255, 0));
+	MenuSelect(m_selectMenu);
+	if(m_selectMenu < 0){ return nextScene; }
 
 	// 選択したメニュー毎の処理
-	if(!std::get<0>(result)){
-		// メニュー選択
-		result = Utility::MenuSelect(message_text);
-	}else{
-		std::string message_text = std::get<1>(result);
-		if(message_text == RETURN_TEXT){
-			if(info.GetPrevScene() == PAUSE_SCENE){
-				// ポーズ画面に戻る
-				next_scene = new CPauseScene();
-			}else{
-				// タイトル画面に戻る
-				controller.MoveToScene(CSecondaryController::PRIMARY_ID_TITLE);
-			}
+	if(m_selectMenu == 0){
+		if(info.GetPrevScene() == PAUSE_SCENE){
+			// ポーズ画面に戻る
+			nextScene = new CPauseScene();
 		}else{
-			tnl::DebugTrace("CHelpScene->Error No Text\n");
+			// タイトル画面に戻る
+			controller.MoveToScene(CSecondaryController::PRIMARY_ID_TITLE);
 		}
-		info.SetPrevScene(HELP_SCENE);
+	}else{
+		tnl::DebugTrace("CHelpScene->Error No Text\n");
 	}
+	info.SetPrevScene(HELP_SCENE);
 
-	return next_scene;
+	return nextScene;
 }
 
 } // namespace PlayGame

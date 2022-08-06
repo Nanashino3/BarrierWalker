@@ -1,3 +1,6 @@
+//****************************************************************************
+// ファイル名：CClearScene(クリア画面)
+// 作　成　日：2022/08/05
 #include "CClearScene.h"
 #include "CLoadingScene.h"
 #include "CScoreScene.h"
@@ -24,9 +27,17 @@ CClearScene::CClearScene()
 CClearScene::~CClearScene()
 {}
 
+//****************************************************************************
+// 関数名：Update
+// 概　要：画面更新
+// 引　数：第1引数	一次管理者
+//		   第2引数	ゲーム情報
+// 戻り値：なし
+// 詳　細：各種画面で必要な処理を行う
+//****************************************************************************
 IScene* CClearScene::Update(CSecondaryController& controller, ShareInfo::CDocGameInfo& info)
 {
-	IScene* next_scene = this;
+	IScene* nextScene = this;
 
 	// ゲーム画面描画
 	controller.GetGameInstance()->Draw();
@@ -38,18 +49,18 @@ IScene* CClearScene::Update(CSecondaryController& controller, ShareInfo::CDocGam
 		info.SetStageIndex(0);
 		if(m_elapsed > CHANGE_SCEME){
 			m_elapsed = 0.0f;
-			next_scene = new CScoreScene();
+			nextScene = new CScoreScene();
 		}
 	}else{
 		DrawStringEx(GAME_CLEAR_X, GAME_CLEAR_Y, GetColor(255, 255, 0), "STAGE CLEAR!!");
 		if(m_elapsed > CHANGE_SCEME){
-			if(!Utility::FadeOut()){ return next_scene; }
+			if(!Utility::FadeOut()){ return nextScene; }
 			m_elapsed = 0.0f;
-			next_scene = new CLoadingScene();
+			nextScene = new CLoadingScene();
 		}
 	}
 
-	return next_scene;
+	return nextScene;
 }
 
 } // namespace PlayGame

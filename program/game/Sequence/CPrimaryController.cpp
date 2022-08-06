@@ -1,4 +1,7 @@
-// 一次管理者
+//****************************************************************************
+// ファイル名：CPrimaryController(一次管理者)
+// 作　成　日：2022/08/05
+
 #include "CPrimaryController.h"
 #include "CTitleScene.h"
 
@@ -11,13 +14,18 @@ CPrimaryController::CPrimaryController()
 {
 	m_currentScene = new CTitleScene;
 }
-
 CPrimaryController::~CPrimaryController()
 {
 	delete m_currentScene;
 }
 
-// 画面更新
+//****************************************************************************
+// 関数名：Update
+// 概　要：画面更新
+// 引　数：第1引数	ゲーム情報
+// 戻り値：なし
+// 詳　細：インスタンスに応じて画面を更新する
+//****************************************************************************
 bool CPrimaryController::Update(ShareInfo::CDocGameInfo& info)
 {
 	// 各画面から次の遷移先を返してもらう

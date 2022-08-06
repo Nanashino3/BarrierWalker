@@ -2,7 +2,7 @@
 // 固定敵クラス
 // TODO：敵が弾を内部的に保持しているのはきついので
 // 　　　どっかのタイミングで切り離す
-//*************************************************************
+
 #include "CFixedEnemy.h"
 
 #include "../Utility/CMath.h"
@@ -15,8 +15,8 @@
 
 namespace{
 const std::vector<std::string> g_enemyCsv = {
-	"resource/enemy/enemy_layout_1.csv",
-	"resource/enemy/enemy_layout_2.csv",
+	//"resource/enemy/enemy_layout_1.csv",
+	//"resource/enemy/enemy_layout_2.csv",
 	"resource/enemy/enemy_layout_3.csv"
 };
 // 弾画像

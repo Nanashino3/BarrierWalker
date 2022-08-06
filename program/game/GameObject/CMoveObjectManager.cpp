@@ -14,8 +14,8 @@ const int MOVE_RIGHT  = 1;
 const int MOVE_BOTTOM = 2;
 const int MOVE_LEFT   = 3;
 const std::vector<std::string> g_readFiles = {
-	"",
-	"resource/stage/move_floor_2.csv",
+	//"",
+	//"resource/stage/move_floor_2.csv",
 	""
 };
 

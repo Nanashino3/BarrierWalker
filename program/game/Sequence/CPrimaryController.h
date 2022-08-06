@@ -1,11 +1,8 @@
 #ifndef SEQUENCE_CPRIMARYCONTROLLER_H_
 #define SEQUENCE_CPRIMARYCONTROLLER_H_
 
-#include "IScene.h"
-
-namespace ShareInfo{
-	class CDocGameInfo;
-}
+namespace Sequence{ class IScene; }
+namespace ShareInfo{ class CDocGameInfo; }
 
 namespace Sequence
 {
@@ -16,6 +13,7 @@ public:
 	~CPrimaryController();
 
 	bool Update(ShareInfo::CDocGameInfo&);
+
 private:
 	IScene* m_currentScene;
 };

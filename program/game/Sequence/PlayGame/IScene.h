@@ -4,7 +4,6 @@
 namespace ShareInfo{
 	class CDocGameInfo;
 }
-
 namespace Sequence{
 namespace PlayGame{
 	class CSecondaryController;

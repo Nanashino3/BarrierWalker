@@ -12,8 +12,8 @@
 namespace {
 // ínå`CSVì«çûóp
 const std::vector<std::string> g_item_csv = {
-	"resource/item/item_layout_1.csv",
-	"resource/item/item_layout_2.csv",
+	//"resource/item/item_layout_1.csv",
+	//"resource/item/item_layout_2.csv",
 	"resource/item/item_layout_3.csv"
 };
 

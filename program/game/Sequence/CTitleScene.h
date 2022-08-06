@@ -1,12 +1,12 @@
 #ifndef SEQUENCE_CTITLESCENE_H_
 #define SEQUENCE_CTITLESCENE_H_
 
-#include "IScene.h"
+#include "AMenuScene.h"
 
 namespace Sound{ class CSoundManager; }
 namespace Sequence
 {
-class CTitleScene : public IScene
+class CTitleScene : public AMenuScene
 {
 public:
 	CTitleScene();
@@ -18,10 +18,11 @@ private:
 	bool PriTitleAnimation(ShareInfo::CDocGameInfo&);
 
 private:
-	int m_gfxHdl;
+	int m_bgGfxHdl;
 	int m_titleGfxHdl;
 	int m_alphaValue;
 	float m_elapsed;
+	int m_selectMenu;
 	Sound::CSoundManager* m_soundManager;
 };
 

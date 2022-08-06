@@ -16,8 +16,8 @@ const int RECT_H = MAP_CHIP_H << 1;
 
 // ’nŒ`CSV“Çž—p
 const std::vector<std::string> g_stageCsv = {
-	"resource/stage/stage_layout_1.csv",
-	"resource/stage/stage_layout_2.csv",
+	//"resource/stage/stage_layout_1.csv",
+	//"resource/stage/stage_layout_2.csv",
 	"resource/stage/stage_layout_3.csv"
 };
 

@@ -10,12 +10,6 @@
 #include "../../ShareInfo/CDocGameInfo.h"
 #include "../../Sound/CSoundManager.h"
 
-namespace{
-const unsigned int g_sounds[] = {
-	BGM_ID_STAGE_1, BGM_ID_STAGE_2, BGM_ID_STAGE_3
-};
-}
-
 namespace Sequence
 {
 namespace PlayGame
@@ -55,9 +49,12 @@ IScene* CPlayScene::Update(CSecondaryController& controller, ShareInfo::CDocGame
 	}
 
 	if(!isClear && !isGameOver){
+		const unsigned int sounds[] = {
+			BGM_ID_STAGE_1, BGM_ID_STAGE_2, BGM_ID_STAGE_3
+		};
 		int index = info.GetStageIndex();
-		if(!m_soundManager->IsPlayBGM(g_sounds[index])){
-			m_soundManager->PlayBGM(g_sounds[index]);
+		if(!m_soundManager->IsPlayBGM(sounds[index])){
+			m_soundManager->PlayBGM(sounds[index]);
 		}
 	}
 

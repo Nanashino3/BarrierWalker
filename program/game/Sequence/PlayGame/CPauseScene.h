@@ -1,14 +1,14 @@
 #ifndef SEQUENCE_PLAYGAME_CPAUSESCENE_H_
 #define SEQUENCE_PLAYGAME_CPAUSESCENE_H_
 
-#include "IScene.h"
+#include "AMenuScene.h"
 
 namespace Sound{ class CSoundManager; }
 namespace Sequence
 {
 namespace PlayGame
 {
-class CPauseScene : public IScene
+class CPauseScene : public AMenuScene
 {
 public:
 	CPauseScene();
@@ -18,6 +18,7 @@ public:
 
 private:
 	Sound::CSoundManager* m_soundManager;
+	int m_selectMenu;
 };
 
 } // namespace PlayGame

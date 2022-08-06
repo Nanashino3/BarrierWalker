@@ -1,4 +1,6 @@
-// ロード画面
+//****************************************************************************
+// ファイル名：CLoadingScene(ロード画面)
+// 作　成　日：2022/08/05
 #include "CLoadingScene.h"
 #include "CSecondaryController.h"
 #include "CPlayScene.h"

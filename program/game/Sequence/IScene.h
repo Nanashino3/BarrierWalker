@@ -1,12 +1,8 @@
 #ifndef SEQUENCE_ISCENE_H_
 #define SEQUENCE_ISCENE_H_
 
-namespace ShareInfo{
-	class CDocGameInfo;
-}
-namespace Sequence{
-	class CPrimaryController;
-}
+namespace ShareInfo{ class CDocGameInfo; }
+namespace Sequence{ class CPrimaryController; }
 
 namespace Sequence
 {

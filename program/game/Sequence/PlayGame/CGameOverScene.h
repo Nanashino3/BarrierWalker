@@ -1,14 +1,14 @@
 #ifndef SEQUENCE_PLAYGAME_CGAMEOVERSCENE_H_
 #define SEQUENCE_PLAYGAME_CGAMEOVERSCENE_H_
 
-#include "IScene.h"
+#include "AMenuScene.h"
 
 namespace Sound{ class CSoundManager; }
 namespace Sequence
 {
 namespace PlayGame
 {
-class CGameOverScene : public IScene
+class CGameOverScene : public AMenuScene
 {
 public:
 	CGameOverScene();
@@ -17,6 +17,7 @@ public:
 	virtual IScene* Update(CSecondaryController&, ShareInfo::CDocGameInfo&) final;
 
 private:
+	int m_selectMenu;
 	Sound::CSoundManager* m_soundManager;
 };
 

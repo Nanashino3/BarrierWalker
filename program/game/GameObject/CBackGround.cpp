@@ -9,8 +9,8 @@ const float FIRST_POS_X = SCREEN_WIDTH >> 1;
 const float FIRST_POS_Y = SCREEN_HEIGHT >> 1;
 
 const std::vector<std::string> g_images = {
-	"resource/background/stage1_bg.png",
-	"resource/background/stage2_bg.png",
+	//"resource/background/stage1_bg.png",
+	//"resource/background/stage2_bg.png",
 	"resource/background/stage3_bg.png"
 };
 }

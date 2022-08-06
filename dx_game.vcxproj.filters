@@ -163,9 +163,6 @@
     <ClCompile Include="program\game\Sequence\PlayGame\CHelpScene.cpp">
       <Filter>program\game\Sequence\PlayGame</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\Utility\CMenu.cpp">
-      <Filter>program\game\Utility</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\GameObject\AFixedObject.cpp">
       <Filter>program\game\GameObject</Filter>
     </ClCompile>
@@ -192,6 +189,15 @@
     </ClCompile>
     <ClCompile Include="program\game\GameObject\CItemManager.cpp">
       <Filter>program\game\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\GameManager.cpp">
+      <Filter>program\game</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Sequence\AMenuScene.cpp">
+      <Filter>program\game\Sequence</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Sequence\PlayGame\AMenuScene.cpp">
+      <Filter>program\game\Sequence\PlayGame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

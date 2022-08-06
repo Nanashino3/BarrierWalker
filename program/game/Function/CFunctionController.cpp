@@ -30,8 +30,8 @@ CFunctionController::CFunctionController()
 
 CFunctionController::~CFunctionController()
 {
-	for(int i = 0; i < m_functions.size(); i++){
-		delete m_functions[i];
+	for (const auto& function : m_functions) {
+		delete function;
 	}
 	m_functions.clear();
 	m_functions.shrink_to_fit();
@@ -46,8 +46,8 @@ CFunctionController::~CFunctionController()
 //****************************************************************************
 void CFunctionController::Initialize()
 {
-	for(int i = 0; i < m_functions.size(); i++){
-		m_functions[i]->Initialize();
+	for(const auto& function : m_functions){
+		function->Initialize();
 	}
 }
 
@@ -60,8 +60,8 @@ void CFunctionController::Initialize()
 //****************************************************************************
 void CFunctionController::Update(ShareInfo::CDocGameInfo& info)
 {
-	for(int i = 0; i < m_functions.size(); i++){
-		m_functions[i]->Update(info);
+	for (const auto& function : m_functions) {
+		function->Update(info);
 	}
 }
 
@@ -84,8 +84,8 @@ void CFunctionController::Collision(ShareInfo::CDocGameInfo& info)
 //****************************************************************************
 void CFunctionController::Draw(ShareInfo::CDocGameInfo& info)
 {
-	for(int i = 0; i < m_functions.size(); i++){
-		m_functions[i]->Draw(info);
+	for (const auto& function : m_functions) {
+		function->Draw(info);
 	}
 }
 

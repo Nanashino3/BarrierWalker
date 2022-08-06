@@ -6,11 +6,13 @@
 #include "Sequence/CPrimaryController.h"
 #include "ShareInfo/CDocGameInfo.h"
 #include "Sound/CSoundManager.h"
+#include "Utility/CImageManager.h"
 
 GameManager* GameManager::m_instance = nullptr;
 GameManager::GameManager()
 {
 	Sound::CSoundManager::CreateInstance();
+	Utility::CImageManager::CreateInstance();
 	m_docGameInfo = ShareInfo::CDocGameInfo::GetInstance();
 	m_sceneControl = new Sequence::CPrimaryController();
 }

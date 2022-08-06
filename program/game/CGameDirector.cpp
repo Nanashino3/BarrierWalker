@@ -14,13 +14,6 @@
 #include "ShareInfo/CDocGameInfo.h"
 #include "Ui/CUiController.h"
 
-//****************************************************************************
-// 関数名：CGameDirector
-// 概　要：コンストラクタ
-// 引　数：なし
-// 戻り値：なし
-// 詳　細：プレイ画面に関わるオブジェクト・UI・機能の生成を行う
-//****************************************************************************
 CGameDirector::CGameDirector()
 : m_camera(nullptr)
 , m_functionController(nullptr)
@@ -50,13 +43,6 @@ CGameDirector::CGameDirector()
 	m_fixedObjects.push_back(fixedObject);
 }
 
-//****************************************************************************
-// 関数名：~CGameDirector()
-// 概　要：デストラクタ
-// 引　数：なし
-// 戻り値：なし
-// 詳　細：プレイ画面に関わるオブジェクト・UI・機能の後処理を行う
-//****************************************************************************
 CGameDirector::~CGameDirector()
 {
 	delete m_camera;

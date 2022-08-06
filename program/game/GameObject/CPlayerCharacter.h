@@ -25,6 +25,14 @@ private:
 	void PriGameInfoClear(ShareInfo::CDocGameInfo&);
 
 private:
+	// アニメーションの種類
+	enum E_ANIM_TYPE{
+		ANIM_TYPE_RIGHT = 0,
+		ANIM_TYPE_LEFT,
+
+		MAX_ANIM_TYPE
+	};
+
 	float m_posX;				// X座標
 	float m_posY;				// Y座標
 
@@ -35,6 +43,10 @@ private:
 	int m_animType;				// アニメーション種
 	int m_animFrame;			// アニメーションのフレーム数
 
+	// グラフィックスハンドル(最大アニメーション数 * 最大フレーム数)
+	enum{ MAX_PLAYER_ANIMFRAME = 4 };
+	int m_gfxHdl[MAX_ANIM_TYPE][MAX_PLAYER_ANIMFRAME];
+	
 	Sound::CSoundManager* m_soundManager;
 };
 

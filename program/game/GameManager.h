@@ -12,15 +12,16 @@ public:
 
 	bool Update(float);
 private:
-	static GameManager* m_instance;
-
-	Sequence::CPrimaryController* m_sceneControl;
-	ShareInfo::CDocGameInfo* m_docGameInfo;
-
 	// ŠO•”‚©‚ç¶¬‚Å‚«‚È‚¢‚æ‚¤‚É‚µ‚Ä‚¨‚­
 	GameManager();
 	GameManager(const GameManager&){}
 	GameManager& operator=(const GameManager&);
+
+private:
+	static GameManager* m_instance;
+
+	Sequence::CPrimaryController* m_sceneControl;
+	ShareInfo::CDocGameInfo* m_docGameInfo;
 };
 
 #endif // #ifndef GAME_GAMEMANAGER_H_

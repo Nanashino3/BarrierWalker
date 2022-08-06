@@ -7,41 +7,19 @@
 #include "../ShareInfo/CDocGameInfo.h"
 #include "../Utility/CMath.h"
 
-namespace {
-// 矩形サイズ
-const int P_RECT_W = 20;
-const int P_RECT_H = PLAYER_RECT_H;
-const int RECT_W = MAP_CHIP_W << 1;
-const int RECT_H = MAP_CHIP_H << 1;
-
-// 地形CSV読込用
-const std::vector<std::string> g_stageCsv = {
-	//"resource/stage/stage_layout_1.csv",
-	//"resource/stage/stage_layout_2.csv",
-	"resource/stage/stage_layout_3.csv"
-};
-
-// 地形操作用
-typedef std::vector<std::vector<std::string>> CSV_DATA;
-CSV_DATA g_stageData;
-
-// 地形画像ハンドル
-int g_gfxHdl[MAX_MAP_CHIP] = {0};
-}
-
 namespace GameObject
 {
 CFixedFloor::CFixedFloor()
 : m_firstPosX(0), m_firstPosY(0)
 {
-	LoadDivGraph("resource/block_ds.png", MAX_MAP_CHIP, MAP_CHIP_X_NUM, MAP_CHIP_Y_NUM, MAP_CHIP_W, MAP_CHIP_H, g_gfxHdl);
+	LoadDivGraph("resource/block_ds.png", MAX_MAP_CHIP, MAP_CHIP_X_NUM, MAP_CHIP_Y_NUM, MAP_CHIP_W, MAP_CHIP_H, m_gfxHdl);
 }
 
 CFixedFloor::~CFixedFloor()
 {
 	// メモリ上から削除する
 	for(int i = 0; i < MAX_MAP_CHIP; i++){
-		DeleteGraph(g_gfxHdl[i]);
+		DeleteGraph(m_gfxHdl[i]);
 	}
 }
 
@@ -55,23 +33,28 @@ CFixedFloor::~CFixedFloor()
 void CFixedFloor::Initialize(ShareInfo::CDocGameInfo& info)
 {
 	// 要素の初期化とメモリサイズを合わせる
-	g_stageData.clear();
-	g_stageData.shrink_to_fit();
+	m_stageDatas.clear();
+	m_stageDatas.shrink_to_fit();
 
 	// ステージ情報取得
 	int index = info.GetStageIndex();
-	g_stageData = tnl::LoadCsv(g_stageCsv[index].c_str());
+	std::vector<std::string> fileList = {
+		//"resource/stage/stage_layout_1.csv",
+		//"resource/stage/stage_layout_2.csv",
+		"resource/stage/stage_layout_3.csv"
+	};
+	m_stageDatas = tnl::LoadCsv(fileList[index].c_str());
 
 	// 最大ステージ数設定(0オリジン)
-	info.SetMaxStage(g_stageCsv.size() - 1);
+	info.SetMaxStage(fileList.size() - 1);
 
 	// 最大画面数(ブロック総数 / 1画面に表示できるブロック数)
-	int screen_max = g_stageData[0].size() / SIZE_32;
+	int screen_max = m_stageDatas[0].size() / SIZE_32;
 	info.SetScreenMax(screen_max);
 
 	// 初期ブロック配置位置
-	m_firstPosX = SIZE_16 - ((g_stageData[0].size() / screen_max) * SIZE_32 * 0.5f);
- 	m_firstPosY = SIZE_16 - (g_stageData.size() * SIZE_32 * 0.5f);
+	m_firstPosX = SIZE_16 - ((m_stageDatas[0].size() / screen_max) * SIZE_32 * 0.5f);
+ 	m_firstPosY = SIZE_16 - (m_stageDatas.size() * SIZE_32 * 0.5f);
 }
 
 //****************************************************************************
@@ -87,9 +70,9 @@ void CFixedFloor::Collision(tnl::Vector3& current_pos, tnl::Vector3& prev_pos, S
 {
 	// TODO：1マスダッシュ処理
 	//ShareInfo::S_VELOCITY_INFO velocity = info.GetVelocity();
-	for(int i = 0; i < g_stageData.size(); i++){
-		for(int j = 0; j < g_stageData[i].size(); j++){
-			int stage_num = std::atoi(g_stageData[i][j].c_str());
+	for(int i = 0; i < m_stageDatas.size(); i++){
+		for(int j = 0; j < m_stageDatas[i].size(); j++){
+			int stage_num = std::atoi(m_stageDatas[i][j].c_str());
 			if(stage_num == 0){ continue; }
 
 			// 各チップの相対座標を計算
@@ -101,7 +84,7 @@ void CFixedFloor::Collision(tnl::Vector3& current_pos, tnl::Vector3& prev_pos, S
 			//static int prev_corrent_tyep = 0;
 
 			// 当たり判定処理
-			int correct_type = IsIntersectRectToCorrectPosition(current_pos, prev_pos, P_RECT_W, P_RECT_H, obj, RECT_W, RECT_H);
+			int correct_type = IsIntersectRectToCorrectPosition(current_pos, prev_pos, PLAYER_RECT_W, PLAYER_RECT_H, obj, (MAP_CHIP_W << 1), (MAP_CHIP_H << 1));
 			if(correct_type != 0){
 				info.SetIsCollision(true);
 				info.SetCorrectType(ShareInfo::COLLISION_OBJECT_STAGE, correct_type);
@@ -130,9 +113,9 @@ void CFixedFloor::Draw(ShareInfo::CDocGameInfo& info)
 	int screen_half_w = info.GetScreenWidth() >> 1;
 	int screen_half_h = info.GetScreenHeight() >> 1;
 
-	for(int i = 0; i < g_stageData.size(); i++){
-		for(int j = 0; j < g_stageData[i].size(); j++){
-			int imageID = std::atoi(g_stageData[i][j].c_str());
+	for(int i = 0; i < m_stageDatas.size(); i++){
+		for(int j = 0; j < m_stageDatas[i].size(); j++){
+			int imageID = std::atoi(m_stageDatas[i][j].c_str());
 			if(imageID == 0){ continue; }
 
 			// 各チップの相対座標を計算
@@ -143,7 +126,7 @@ void CFixedFloor::Draw(ShareInfo::CDocGameInfo& info)
 			int view_stagePos_x = stage_pos_x - camera->GetPosition().x + screen_half_w;
 			int view_stagePos_y = stage_pos_y - camera->GetPosition().y + screen_half_h;
 
-			DrawRotaGraph(view_stagePos_x, view_stagePos_y, 2.0f, 0, g_gfxHdl[imageID - 1], true);
+			DrawRotaGraph(view_stagePos_x, view_stagePos_y, 2.0f, 0, m_gfxHdl[imageID - 1], true);
 		}
 	}
 }

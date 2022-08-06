@@ -3,8 +3,8 @@
 // ì@¬@“úF2022/08/06
 #include <string>
 #include "CUiTrilemma.h"
-#include "../Utility/CImageManager.h"
 #include "../ShareInfo/CONST_GAME_VALUE.h"
+#include "../Utility/CImageManager.h"
 
 namespace Ui
 {

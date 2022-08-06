@@ -1,6 +1,9 @@
 #ifndef GAMEOBJECT_CMOVEOBJECTMANAGER_H_
 #define GAMEOBJECT_CMOVEOBJECTMANAGER_H_
 
+#include <vector>
+#include "S_FLOOR_MANAGER.h"
+
 namespace tnl{ class Vector3; }
 namespace Camera{ class CCamera2D; }
 namespace ShareInfo{ class CDocGameInfo; }
@@ -21,6 +24,7 @@ public:
 
 private:
 	int m_gfxHdl;
+	std::vector<GameObject::S_FLOOR_MANAGER> m_floorManager;
 };
 
 } // namespace GameObject

@@ -20,9 +20,8 @@ CBarrier::CBarrier(unsigned int function_type)
 		"resource/pipo-btleffect111d.png",	// —Î
 		"resource/pipo-btleffect111e.png"	// Â
 	};
-	for(int i = 0; i < fileList.size(); ++i){
-		std::string readFile = fileList[i];
-		m_imageList.push_back(readFile);
+	for(const auto& file : fileList){
+		m_imageList.push_back(file.c_str());
 	}
 }
 

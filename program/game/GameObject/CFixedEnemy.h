@@ -1,8 +1,11 @@
 #ifndef GAMEOBJECT_CFIXEDENEMY_H_
 #define GAMEOBJECT_CFIXEDENEMY_H_
 
+#include <vector>
+#include <string>
 #include "AFixedObject.h"
 #include "S_ENEMY_INFO.h"
+#include "../ShareInfo/CONST_GAME_VALUE.h"
 
 namespace Sound{ class CSoundManager; }
 
@@ -24,8 +27,25 @@ private:
 	bool PriBulletCollision(tnl::Vector3&, S_ENEMY_INFO&, ShareInfo::CDocGameInfo&);
 
 private:
+	// 弾を打ち出す方向
+	enum E_SHOOT_DIRECTION
+	{
+		SHOOT_DIRECTION_UP = 0,
+		SHOOT_DIRECTION_RIGHT,
+		SHOOT_DIRECTION_DOWN,
+		SHOOT_DIRECTION_LEFT,
+
+		MAX_SHOOT_DIRECTION
+	};
 	unsigned int m_totalDefeat;
 	unsigned int m_defeatCount;
+
+	// 各種グラフィックスハンドル
+	int m_gfxHdl[MAX_MAP_CHIP];
+	std::vector<int> m_bulletGfxHdl;
+
+	// 敵キャラ情報
+	std::vector<GameObject::S_ENEMY_INFO> m_enemys;
 
 	Sound::CSoundManager* m_soundManager;
 };

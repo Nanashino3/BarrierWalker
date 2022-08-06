@@ -25,8 +25,8 @@ CUiController::CUiController()
 
 CUiController::~CUiController()
 {
-	for(int i = 0; i < m_uiList.size(); i++){
-		delete m_uiList[i];
+	for (const auto& ui : m_uiList) {
+		delete ui;
 	}
 	m_uiList.clear();
 	m_uiList.shrink_to_fit();
@@ -41,8 +41,8 @@ CUiController::~CUiController()
 //****************************************************************************
 void CUiController::Initialize(ShareInfo::CDocGameInfo& info)
 {
-	for(int i = 0; i < m_uiList.size(); i++){
-		m_uiList[i]->Initialize(info);
+	for(const auto& ui : m_uiList){
+		ui->Initialize(info);
 	}
 }
 
@@ -55,8 +55,8 @@ void CUiController::Initialize(ShareInfo::CDocGameInfo& info)
 //****************************************************************************
 void CUiController::Update(ShareInfo::CDocGameInfo& info)
 {
-	for(int i = 0; i < m_uiList.size(); i++){
-		m_uiList[i]->Update(info);
+	for (const auto& ui : m_uiList) {
+		ui->Update(info);
 	}
 }
 
@@ -69,8 +69,8 @@ void CUiController::Update(ShareInfo::CDocGameInfo& info)
 //****************************************************************************
 void CUiController::Draw(ShareInfo::CDocGameInfo& info)
 {
-	for(int i = 0; i < m_uiList.size(); i++){
-		m_uiList[i]->Draw(info);
+	for (const auto& ui : m_uiList) {
+		ui->Draw(info);
 	}
 }
 

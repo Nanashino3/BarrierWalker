@@ -1,7 +1,10 @@
 #ifndef GAMEOBJECT_CFIXEDFLOOR_H_
 #define GAMEOBJECT_CFIXEDFLOOR_H_
 
+#include <vector>
+#include <string>
 #include "AFixedObject.h"
+#include "../ShareInfo/CONST_GAME_VALUE.h"
 
 namespace tnl{ class Vector3; }
 namespace ShareInfo{ class CDocGameInfo; }
@@ -21,6 +24,8 @@ public:
 private:
 	int m_firstPosX;
 	int m_firstPosY;
+	int m_gfxHdl[MAX_MAP_CHIP];
+	std::vector<std::vector<std::string>> m_stageDatas;
 };
 
 } // namespace GameObject

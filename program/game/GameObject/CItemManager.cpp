@@ -3,41 +3,23 @@
 //*************************************************************
 #include "CItemManager.h"
 
-#include "S_ITEM_INFO.h"
 #include "../Camera/CCamera2D.h"
-#include "../Utility/CImageManager.h"
 #include "../ShareInfo/CDocGameInfo.h"
 #include "../Sound/CSoundManager.h"
-
-namespace {
-// 地形CSV読込用
-const std::vector<std::string> g_item_csv = {
-	//"resource/item/item_layout_1.csv",
-	//"resource/item/item_layout_2.csv",
-	"resource/item/item_layout_3.csv"
-};
-
-const int ITEM_KIND_COIN = 0;
-const int MAX_ITEM_KIND = 1;
-
-std::vector<std::vector<std::string>> g_itemDatas;
-std::vector<GameObject::S_ITEM_INFO> g_items;
-
-int g_gfxHdl[MAX_ITEM_KIND] = {0};
-}
+#include "../Utility/CImageManager.h"
 
 namespace GameObject
 {
 CItemManager::CItemManager()
 {
-	g_gfxHdl[ITEM_KIND_COIN] = Utility::CImageManager::GetInstance()->LoadGraphEx("resource/item/sticon2b-3.png");
+	m_gfxHdl[ITEM_KIND_COIN] = Utility::CImageManager::GetInstance()->LoadGraphEx("resource/item/sticon2b-3.png");
 	m_soundManager = Sound::CSoundManager::GetInstance();
 }
 	
 CItemManager::~CItemManager()
 {
 	for(int i = 0; i < MAX_ITEM_KIND; i++){
-		Utility::CImageManager::GetInstance()->DeleteGraphEx(g_gfxHdl[i]);
+		Utility::CImageManager::GetInstance()->DeleteGraphEx(m_gfxHdl[i]);
 	}
 }
 
@@ -51,22 +33,26 @@ CItemManager::~CItemManager()
 void CItemManager::Initialize(ShareInfo::CDocGameInfo& info)
 {
 	// 要素の初期化とメモリサイズを合わせる
-	g_itemDatas.clear();
-	g_itemDatas.shrink_to_fit();
-	g_items.clear();
-	g_items.shrink_to_fit();
+	m_items.clear();
+	m_items.shrink_to_fit();
 
 	int index = info.GetStageIndex();
-	g_itemDatas = tnl::LoadCsv(g_item_csv[index].c_str());
-	for(int i = 0; i < g_itemDatas.size(); i++){
+	// 地形CSV読込用
+	std::string fileList[] = {
+		//"resource/item/item_layout_1.csv",
+		//"resource/item/item_layout_2.csv",
+		"resource/item/item_layout_3.csv"
+	};
+	std::vector<std::vector<std::string>> itemDatas = tnl::LoadCsv(fileList[index].c_str());
+	for(int i = 0; i < itemDatas.size(); i++){
 		S_ITEM_INFO item_info;
-		item_info.imageID = atoi(g_itemDatas[i][0].c_str());
-		item_info.item_kind = atoi(g_itemDatas[i][1].c_str());
-		item_info.pos_x = atof(g_itemDatas[i][2].c_str()) - (info.GetScreenWidth() >> 1);
-		item_info.pos_y = atof(g_itemDatas[i][3].c_str()) - (info.GetScreenHeight() >> 1);
+		item_info.imageID = atoi(itemDatas[i][0].c_str());
+		item_info.item_kind = atoi(itemDatas[i][1].c_str());
+		item_info.pos_x = atof(itemDatas[i][2].c_str()) - (info.GetScreenWidth() >> 1);
+		item_info.pos_y = atof(itemDatas[i][3].c_str()) - (info.GetScreenHeight() >> 1);
 		item_info.isEnable = true;
 
-		g_items.push_back(item_info);
+		m_items.push_back(item_info);
 	}
 }
 
@@ -81,17 +67,17 @@ void CItemManager::Initialize(ShareInfo::CDocGameInfo& info)
 //****************************************************************************
 void CItemManager::Collision(tnl::Vector3& current_pos, tnl::Vector3& prev_pos, ShareInfo::CDocGameInfo& info)
 {
-	for(int i = 0; i < g_items.size(); i++){
-		tnl::Vector3 item_pos = tnl::Vector3(g_items[i].pos_x, g_items[i].pos_y, 0);
+	for(int i = 0; i < m_items.size(); i++){
+		tnl::Vector3 item_pos = tnl::Vector3(m_items[i].pos_x, m_items[i].pos_y, 0);
 		// 有効なアイテムが
-		if(!g_items[i].isEnable){ continue; }
+		if(!m_items[i].isEnable){ continue; }
 		// 衝突したか
 		if(!PriCollision(current_pos, item_pos)){ continue;}
 
 		// 衝突した場合はアイテムを無効化し各処理を行う
-		g_items[i].isEnable = false;
+		m_items[i].isEnable = false;
 		unsigned int items = 0;
-		switch(g_items[i].item_kind)
+		switch(m_items[i].item_kind)
 		{
 		case ITEM_KIND_COIN:
 			items |= ITEM_COIN;
@@ -118,11 +104,11 @@ void CItemManager::Draw(ShareInfo::CDocGameInfo& info)
 	int screen_half_w = info.GetScreenWidth() >> 1;
 	int screen_half_h = info.GetScreenHeight() >> 1;
 
-	for(int i = 0; i < g_items.size(); i++){
-		if(!g_items[i].isEnable){ continue; }
-		int view_pos_x = g_items[i].pos_x - camera->GetPosition().x + screen_half_w;
-		int view_pos_y = g_items[i].pos_y - camera->GetPosition().y + screen_half_h;
-		DrawRotaGraph(view_pos_x, view_pos_y, 1.0f, 0, g_gfxHdl[g_items[i].imageID], true);
+	for(int i = 0; i < m_items.size(); i++){
+		if(!m_items[i].isEnable){ continue; }
+		int view_pos_x = m_items[i].pos_x - camera->GetPosition().x + screen_half_w;
+		int view_pos_y = m_items[i].pos_y - camera->GetPosition().y + screen_half_h;
+		DrawRotaGraph(view_pos_x, view_pos_y, 1.0f, 0, m_gfxHdl[m_items[i].imageID], true);
 	}
 }
 

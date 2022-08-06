@@ -1,7 +1,9 @@
 #ifndef GAMEOBJECT_CITEMMANAGER_H_
 #define GAMEOBJECT_CITEMMANAGER_H_
 
+#include <vector>
 #include "AFixedObject.h"
+#include "S_ITEM_INFO.h"
 
 namespace tnl{ class Vector3; }
 namespace Sound{ class CSoundManager; }
@@ -22,6 +24,14 @@ private:
 	bool PriCollision(tnl::Vector3&, tnl::Vector3&);
 
 private:
+	enum E_ITEM_KIND{
+		ITEM_KIND_COIN = 0,
+
+		MAX_ITEM_KIND
+	};
+
+	int m_gfxHdl[MAX_ITEM_KIND];
+	std::vector<GameObject::S_ITEM_INFO> m_items;
 	Sound::CSoundManager* m_soundManager;
 };
 

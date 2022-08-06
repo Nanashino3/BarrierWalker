@@ -4,8 +4,8 @@
 #include "CUiBarrier.h"
 #include "CONST_UI_VALUE.h"
 #include "S_ANIMATION_INFO.h"
-#include "../Utility/CImageManager.h"
 #include "../ShareInfo/CDocGameInfo.h"
+#include "../Utility/CImageManager.h"
 
 namespace Ui
 {

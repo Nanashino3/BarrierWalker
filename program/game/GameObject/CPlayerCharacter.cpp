@@ -2,38 +2,12 @@
 // プレイヤーキャラクタークラス
 //*************************************************************
 #include "CPlayerCharacter.h"
+#include "CONST_GAMEOBJECT_VALUE.h"
 
 #define NOMINMAX
-#include "../ShareInfo/CDocGameInfo.h"
 #include "../Camera/CCamera2D.h"
+#include "../ShareInfo/CDocGameInfo.h"
 #include "../Sound/CSoundManager.h"
-
-namespace{
-const float NORMAL_SPEED = 2.0f;
-
-// アニメーションの種類
-const int ANIM_TYPE_RIGHT = 0;
-const int ANIM_TYPE_LEFT  = 1;
-const int ANIM_TYPE_MAX	  = 2;
-
-// アニメーションの最大フレーム数
-const int ANIM_FRAME_MAX  = 4;
-
-// ジャンプ関連
-const float JUMP_SPEED = -6.5f;
-const float JUMP_ACCEL = 0.2f;
-
-// ダッシュ関連
-const float MAX_SPEED	= 1.0f;
-const float DASH_ACCEL	= 0.1f;
-
-// 初期座標(スクリーン座標)
-const float FIRST_POS_X	= 75.f;
-const float FIRST_POS_Y	= 551.f;
-
-// グラフィックスハンドル(最大アニメーション数 * 最大フレーム数)
-int g_gfxHdl[ANIM_TYPE_MAX][ANIM_FRAME_MAX];
-}
 
 namespace GameObject
 {
@@ -44,17 +18,17 @@ CPlayerCharacter::CPlayerCharacter()
 , m_animType(ANIM_TYPE_RIGHT)
 , m_animFrame(0)
 {
-	LoadDivGraph("resource/c1_anim_left.png", SIZE_4, PLAYER_X_NUM, PLAYER_Y_NUM, PLAYER_RECT_W, PLAYER_RECT_H, g_gfxHdl[ANIM_TYPE_LEFT]);
-	LoadDivGraph("resource/c1_anim_right.png", SIZE_4, PLAYER_X_NUM, PLAYER_Y_NUM, PLAYER_RECT_W, PLAYER_RECT_H, g_gfxHdl[ANIM_TYPE_RIGHT]);
+	LoadDivGraph("resource/c1_anim_left.png", SIZE_4, PLAYER_X_NUM, PLAYER_Y_NUM, PLAYER_RECT_W, PLAYER_RECT_H, m_gfxHdl[ANIM_TYPE_LEFT]);
+	LoadDivGraph("resource/c1_anim_right.png", SIZE_4, PLAYER_X_NUM, PLAYER_Y_NUM, PLAYER_RECT_W, PLAYER_RECT_H, m_gfxHdl[ANIM_TYPE_RIGHT]);
 
 	m_soundManager = Sound::CSoundManager::GetInstance();
 }
 
 CPlayerCharacter::~CPlayerCharacter()
 {
-	for(int i = 0; i < ANIM_TYPE_MAX; i++){
-		for(int j = 0; j < ANIM_FRAME_MAX; j++){
-			DeleteGraph(g_gfxHdl[i][j]);
+	for(int i = 0; i < MAX_ANIM_TYPE; i++){
+		for(int j = 0; j < MAX_ANIM_TYPE; j++){
+			DeleteGraph(m_gfxHdl[i][j]);
 		}
 	}
 }
@@ -70,8 +44,8 @@ void CPlayerCharacter::Initialize(ShareInfo::CDocGameInfo& info)
 {
 	Camera::CCamera2D* camera = info.GetCamera();
 	// 初期座標設定
- 	m_posX = FIRST_POS_X - (info.GetScreenWidth() >> 1);
-	m_posY = FIRST_POS_Y - (info.GetScreenHeight() >> 1);
+ 	m_posX = PLAYER_FIRST_POSX - (info.GetScreenWidth() >> 1);
+	m_posY = PLAYER_FIRST_POSY - (info.GetScreenHeight() >> 1);
 	tnl::Vector3 pos(m_posX, m_posY, 0);
 	info.SetCurrentPos(pos);
 
@@ -144,7 +118,7 @@ void CPlayerCharacter::Update(ShareInfo::CDocGameInfo& info)
 	if(anim_time_count > 0.25f){
 		anim_time_count = 0;
 		m_animFrame++;
-		m_animFrame %= ANIM_FRAME_MAX;
+		m_animFrame %= MAX_ANIM_TYPE;
 	}
 
 	// 当たり判定の結果から必要な処理を行う
@@ -186,7 +160,7 @@ void CPlayerCharacter::Draw(ShareInfo::CDocGameInfo& info)
 
 	int view_playerPos_x = m_posX - camera->GetPosition().x + screen_half_w;
 	int view_playerPos_y = m_posY - camera->GetPosition().y + screen_half_h;
-	DrawRotaGraph(view_playerPos_x, view_playerPos_y, 1.0f, 0, g_gfxHdl[m_animType][m_animFrame], true);
+	DrawRotaGraph(view_playerPos_x, view_playerPos_y, 1.0f, 0, m_gfxHdl[m_animType][m_animFrame], true);
 }
 
 //****************************************************************************
@@ -199,16 +173,16 @@ void CPlayerCharacter::Draw(ShareInfo::CDocGameInfo& info)
 void CPlayerCharacter::PriFunction_Dash(float dx)
 {
 	if(tnl::Input::IsKeyDown(eKeys::KB_LSHIFT)){
-		m_velocityX += DASH_ACCEL;
+		m_velocityX += PLAYER_DASH_ACCEL;
 		m_actionType |= IS_DASHING;
 	}else{
-		m_velocityX -= DASH_ACCEL;
+		m_velocityX -= PLAYER_DASH_ACCEL;
 		m_actionType &= ~IS_DASHING;
 	}
 	if(m_velocityX < 0.0f){ m_velocityX = 0.0f; }
-	if(m_velocityX > MAX_SPEED){ m_velocityX = MAX_SPEED; }
+	if(m_velocityX > PLAYER_DASH_SPEED){ m_velocityX = PLAYER_DASH_SPEED; }
 
-	m_posX += (NORMAL_SPEED + m_velocityX) * dx;
+	m_posX += (PLAYER_SPEED + m_velocityX) * dx;
 }
 
 //****************************************************************************
@@ -222,14 +196,14 @@ void CPlayerCharacter::PriFunction_Jump()
 {
 	// ジャンプ処理
 	if(tnl::Input::IsKeyDownTrigger(eKeys::KB_SPACE) && !(m_actionType & IS_JUMPING) && !(m_actionType & IS_AIR)){
-		m_velocityY = JUMP_SPEED;
+		m_velocityY = PLAYER_JUMP_SPEED;
 		m_actionType |= IS_JUMPING;
 		m_soundManager->PlaySE(SE_ID_JUMP);
 	}
 
 	// 重力処理
 	m_posY += m_velocityY;
-	m_velocityY += JUMP_ACCEL;
+	m_velocityY += PLAYER_JUMP_ACCEL;
 	m_velocityY = std::min(30.0f, std::max(-30.0f, m_velocityY));
 
 	// 空中判定

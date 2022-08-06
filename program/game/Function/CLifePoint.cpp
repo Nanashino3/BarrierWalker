@@ -4,9 +4,9 @@
 #include "CLifePoint.h"
 
 #include "../Camera/CCamera2D.h"
-#include "../Utility/CImageManager.h"
 #include "../ShareInfo/CDocGameInfo.h"
 #include "../Sound/CSoundManager.h"
+#include "../Utility/CImageManager.h"
 
 namespace Function
 {

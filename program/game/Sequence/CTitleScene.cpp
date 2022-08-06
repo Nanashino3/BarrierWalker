@@ -4,10 +4,11 @@
 #include "CTitleScene.h"
 #include "PlayGame/CSecondaryController.h"
 
-#include "../Utility/CUtility.h"
-#include "../Utility/CImageManager.h"
 #include "../ShareInfo/CDocGameInfo.h"
 #include "../Sound/CSoundManager.h"
+#include "../Utility/CImageManager.h"
+#include "../Utility/CScreenEffect.h"
+
 
 namespace Sequence
 {
@@ -57,7 +58,7 @@ IScene* CTitleScene::Update(const CPrimaryController&, ShareInfo::CDocGameInfo& 
 
 	// ‘I‘ð‚µ‚½ƒƒjƒ…[–ˆ‚Ìˆ—
 	if(m_selectMenu == 0){
-		if(!Utility::FadeOut()){ return nextScene; }
+		if(!Utility::CScreenEffect::GetInstance()->FadeOut()){ return nextScene; }
 		nextScene = new PlayGame::CSecondaryController(PlayGame::CSecondaryController::SECONDARY_ID_LOADING);
 		m_soundManager->StopBGM(BGM_ID_TITLE);
 	}else if(m_selectMenu == 1){

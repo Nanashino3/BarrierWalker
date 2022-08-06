@@ -32,11 +32,16 @@ const float PLAYER_FIRST_POSY = 551.f;
 //****************************************************************************
 
 //****************************************************************************
-// 固定的関連定数
+// 固定敵関連定数
 // 弾：弾数
 const int MAX_BULLET = 10;
 // 矩形サイズ
 const int FIXEDENEMY_P_RECT_W = 24;
+// 敵種
+const int ENEMY_IMAGE_ID_RED = 106;
+const int ENEMY_IMAGE_ID_GREEN = 10;
+const int ENEMY_IMAGE_ID_BLUE = 34;
+const int ENEMY_IMAGE_ID_BLACK = 181;
 //****************************************************************************
 }
 

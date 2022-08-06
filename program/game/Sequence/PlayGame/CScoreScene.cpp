@@ -2,8 +2,8 @@
 #include "CSecondaryController.h"
 
 #include "../../CGameDirector.h"
-#include "../../Utility/CUtility.h"
 #include "../../ShareInfo/CDocGameInfo.h"
+#include "../../Utility/CScreenEffect.h"
 
 namespace Sequence
 {
@@ -54,10 +54,11 @@ IScene* CScoreScene::Update(CSecondaryController& controller, ShareInfo::CDocGam
 	// 全てのスコアを表示した場合選択メニューを出す
 	if(m_keyCount == MAX_ACCESS_KEY){
 		MenuSelect(m_selectMenu);
+		if(m_selectMenu < 0){ return nextScene; }
 
 		// 選択したメニュー毎の処理
 		if(m_selectMenu == 0){
-			if(!Utility::FadeOut()){ return nextScene; }
+			if(!Utility::CScreenEffect::GetInstance()->FadeOut()){ return nextScene; }
 			controller.MoveToScene(CSecondaryController::PRIMARY_ID_TITLE);
 		}else{
 			tnl::DebugTrace("CScoreScene->Error No Text\n");

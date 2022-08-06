@@ -41,8 +41,8 @@ void CMoveObjectManager::Initialize(ShareInfo::CDocGameInfo& info)
 	// ステージ番号から読み込むCSVを特定
 	int index = info.GetStageIndex();
 	std::string fileList[] = {
-		//"",
-		//"resource/stage/move_floor_2.csv",
+		"",
+		"resource/stage/move_floor_2.csv",
 		""
 	};
 	std::vector<std::vector<std::string>> objectDatas;

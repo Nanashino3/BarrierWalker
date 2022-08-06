@@ -3,10 +3,10 @@
 #include "CHelpScene.h"
 #include "CSecondaryController.h"
 
-#include "../../Utility/CUtility.h"
 #include "../../CGameDirector.h"
 #include "../../ShareInfo/CDocGameInfo.h"
 #include "../../Sound/CSoundManager.h"
+#include "../../Utility/CScreenEffect.h"
 
 namespace Sequence
 {
@@ -36,6 +36,7 @@ IScene* CPauseScene::Update(CSecondaryController& controller, ShareInfo::CDocGam
 	}
 
 	MenuSelect(m_selectMenu);
+	if(m_selectMenu < 0){ return nextScene; }
 
 	// ‘I‘ð‚µ‚½ƒƒjƒ…[–ˆ‚Ìˆ—
 	if(m_selectMenu == 0){
@@ -43,7 +44,7 @@ IScene* CPauseScene::Update(CSecondaryController& controller, ShareInfo::CDocGam
 	}else if(m_selectMenu == 1){
 		nextScene = new CHelpScene();
 	}else if(m_selectMenu == 2){
-		if(!Utility::FadeOut()){ return nextScene; }
+		if(!Utility::CScreenEffect::GetInstance()->FadeOut()){ return nextScene; }
 		controller.MoveToScene(CSecondaryController::PRIMARY_ID_TITLE);
 		m_soundManager->AllStopSound();
 	}else{

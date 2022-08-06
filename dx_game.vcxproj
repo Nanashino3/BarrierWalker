@@ -49,7 +49,7 @@
     <ClCompile Include="program\game\Ui\CUiTrilemma.cpp" />
     <ClCompile Include="program\game\Utility\CImageManager.cpp" />
     <ClCompile Include="program\game\Utility\CMath.cpp" />
-    <ClCompile Include="program\game\Utility\CUtility.cpp" />
+    <ClCompile Include="program\game\Utility\CScreenEffect.cpp" />
     <ClCompile Include="program\library\tnl_font_texture.cpp" />
     <ClCompile Include="program\library\tnl_input.cpp" />
     <ClCompile Include="program\library\tnl_intersect.cpp" />

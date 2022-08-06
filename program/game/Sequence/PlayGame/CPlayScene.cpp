@@ -6,9 +6,9 @@
 #include "CSecondaryController.h"
 
 #include "../../CGameDirector.h"
-#include "../../Utility/CUtility.h"
 #include "../../ShareInfo/CDocGameInfo.h"
 #include "../../Sound/CSoundManager.h"
+#include "../../Utility/CScreenEffect.h"
 
 namespace Sequence
 {
@@ -61,7 +61,7 @@ IScene* CPlayScene::Update(CSecondaryController& controller, ShareInfo::CDocGame
 	// ƒQ[ƒ€ŠÇ—ŽÒŽæ“¾
 	CGameDirector* director = controller.GetGameInstance();
 	if(m_isFadeIn){
-		if(Utility::FadeIn()){ m_isFadeIn = false; }
+		if(Utility::CScreenEffect::GetInstance()->FadeIn()){ m_isFadeIn = false; }
 	}else{
 		// ƒQ[ƒ€‚ÌXV
 		director->Update();

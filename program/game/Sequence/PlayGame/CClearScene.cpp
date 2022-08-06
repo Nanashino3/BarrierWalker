@@ -7,8 +7,8 @@
 #include "CSecondaryController.h"
 
 #include "../../CGameDirector.h"
-#include "../../Utility/CUtility.h"
 #include "../../ShareInfo/CDocGameInfo.h"
+#include "../../Utility/CScreenEffect.h"
 
 namespace {
 const int GAME_CLEAR_X = 450;
@@ -54,7 +54,7 @@ IScene* CClearScene::Update(CSecondaryController& controller, ShareInfo::CDocGam
 	}else{
 		DrawStringEx(GAME_CLEAR_X, GAME_CLEAR_Y, GetColor(255, 255, 0), "STAGE CLEAR!!");
 		if(m_elapsed > CHANGE_SCEME){
-			if(!Utility::FadeOut()){ return nextScene; }
+			if(!Utility::CScreenEffect::GetInstance()->FadeOut()){ return nextScene; }
 			m_elapsed = 0.0f;
 			nextScene = new CLoadingScene();
 		}

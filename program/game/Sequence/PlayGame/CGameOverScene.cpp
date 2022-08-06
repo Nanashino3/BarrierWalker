@@ -7,9 +7,9 @@
 #include "CSecondaryController.h"
 
 #include "../../CGameDirector.h"
-#include "../../Utility/CUtility.h"
 #include "../../ShareInfo/CDocGameInfo.h"
 #include "../../Sound/CSoundManager.h"
+#include "../../Utility/CScreenEffect.h"
 
 namespace Sequence
 {
@@ -48,7 +48,7 @@ IScene* CGameOverScene::Update(CSecondaryController& controller, ShareInfo::CDoc
 	if(m_selectMenu < 0){ return nextScene; }
 	
 	// ‘I‘ð‚µ‚½ƒƒjƒ…[–ˆ‚Ìˆ—
-	if(!Utility::FadeOut()){ return nextScene; }
+	if(!Utility::CScreenEffect::GetInstance()->FadeOut()){ return nextScene; }
 	if(m_selectMenu == 0){
 		nextScene = new CLoadingScene();
 	}else if(m_selectMenu == 1){

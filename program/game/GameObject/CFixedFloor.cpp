@@ -39,8 +39,8 @@ void CFixedFloor::Initialize(ShareInfo::CDocGameInfo& info)
 	// ステージ情報取得
 	int index = info.GetStageIndex();
 	std::vector<std::string> fileList = {
-		//"resource/stage/stage_layout_1.csv",
-		//"resource/stage/stage_layout_2.csv",
+		"resource/stage/stage_layout_1.csv",
+		"resource/stage/stage_layout_2.csv",
 		"resource/stage/stage_layout_3.csv"
 	};
 	m_stageDatas = tnl::LoadCsv(fileList[index].c_str());

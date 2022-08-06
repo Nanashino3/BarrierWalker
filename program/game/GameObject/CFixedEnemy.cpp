@@ -9,7 +9,7 @@
 #include "../ShareInfo/CDocGameInfo.h"
 #include "../Sound/CSoundManager.h"
 #include "../Utility/CMath.h"
-#include "../Utility/CUtility.h"
+#include "../Utility/CScreenEffect.h"
 #include "../Utility/CImageManager.h"
 
 namespace GameObject
@@ -17,6 +17,7 @@ namespace GameObject
 CFixedEnemy::CFixedEnemy()
 : m_totalDefeat(0)
 , m_defeatCount(0)
+, m_scheduleCount(0)
 {
 	// 敵キャラ画像読込
 	LoadDivGraph("resource/block_ds.png", MAX_MAP_CHIP, MAP_CHIP_X_NUM, MAP_CHIP_Y_NUM, MAP_CHIP_W, MAP_CHIP_H, m_gfxHdl);
@@ -67,8 +68,8 @@ void CFixedEnemy::Initialize(ShareInfo::CDocGameInfo& info)
 	// 敵CSV読込
 	int index = info.GetStageIndex();
 	std::string fileList[] = {
-		//"resource/enemy/enemy_layout_1.csv",
-		//"resource/enemy/enemy_layout_2.csv",
+		"resource/enemy/enemy_layout_1.csv",
+		"resource/enemy/enemy_layout_2.csv",
 		"resource/enemy/enemy_layout_3.csv"
 	};
 	std::vector<std::vector<std::string>> enemyDetas = tnl::LoadCsv(fileList[index]);
@@ -76,12 +77,12 @@ void CFixedEnemy::Initialize(ShareInfo::CDocGameInfo& info)
 	Camera::CCamera2D* camera = info.GetCamera();
 
 	// TODO：黒敵の場合ランダムで属性を取得する必要があるので一旦初期化する
-	Utility::Initialize();
+	PriEnemyRandom();
 	for(int i = 0; i < enemyDetas.size(); i++){
 		// CSVの内容で初期化
 		S_ENEMY_INFO enemyInfo;
 		enemyInfo.imageID = atoi(enemyDetas[i][0].c_str());
-		enemyInfo.attribute = Utility::ConvertImageIDToAttribute(enemyInfo.imageID);
+		enemyInfo.attribute = PriConvertImageIDToAttribute(enemyInfo.imageID);
 		enemyInfo.direction = atoi(enemyDetas[i][1].c_str());
 		enemyInfo.interval = atof(enemyDetas[i][3].c_str());
 		enemyInfo.disitance = atof(enemyDetas[i][4].c_str());
@@ -224,7 +225,7 @@ void CFixedEnemy::Collision(tnl::Vector3& currentPos, tnl::Vector3& prevPos, Sha
 		tnl::Vector3 tempPos = currentPos;
 		if(isBarrier && !m_enemys[i].isDefeat){
 			if(IsIntersectRectToCorrectPosition(tempPos, prevPos, FIXEDENEMY_P_RECT_W, PLAYER_RECT_H, enemyPos, (MAP_CHIP_W << 1), (MAP_CHIP_H << 1)) == CORRECT_UP){
-				int judge = Utility::IsJudgeTrilemma(info.GetBarrierColor(BARRIER_CURRENT), enemy.attribute);
+				int judge = PriIsJudgeTrilemma(info.GetBarrierColor(BARRIER_CURRENT), enemy.attribute);
 				if(judge == JUDGE_WIN){
 					m_enemys[i].isDefeat = true;
 					m_defeatCount++;
@@ -359,7 +360,7 @@ bool CFixedEnemy::PriBulletCollision(tnl::Vector3& current_pos, S_ENEMY_INFO& en
 				int attribute = enemy_info.bullets[count].attribute;
 				
 				// 三すくみ判定
-				int ret = Utility::IsJudgeTrilemma(barrierColor, attribute);
+				int ret = PriIsJudgeTrilemma(barrierColor, attribute);
 
 				// 必要なフラグを操作する
 				bool isInit = (ret == JUDGE_EVEN || ret == JUDGE_WIN) ? true : false;
@@ -378,6 +379,94 @@ bool CFixedEnemy::PriBulletCollision(tnl::Vector3& current_pos, S_ENEMY_INFO& en
 	}
 
 	return isPlayerHit;
+}
+
+//****************************************************************************
+// 関数名：PriEnemyRandom
+// 概　要：敵ランダム(Private)
+// 引　数：なし
+// 戻り値：なし
+// 詳　細：特殊な敵はランダム生成
+//****************************************************************************
+void CFixedEnemy::PriEnemyRandom()
+{
+	srand((unsigned int)time(NULL));
+
+	std::vector<int> scheduleList = {0, 1, 2, 2, 1, 0, 0, 1, 2, 2, 1, 0, 0, 1, 2};
+
+	int i = scheduleList.size() - 1, j = 0;
+	while (i > 0) {
+		j = rand() % (i + 1);
+
+
+		int temp = scheduleList[j];
+		scheduleList[j] = scheduleList[i];
+		scheduleList[i] = temp;
+
+		i--;
+	}
+
+	m_scheduleList = scheduleList;
+}
+
+//****************************************************************************
+// 関数名：PriIsJudgeTrilemma
+// 概　要：三すくみ判定(Private)
+// 引　数：第1引数　判定元
+// 　　　　第2引数　判定先
+// 戻り値：あいこ(0)、勝利(1)、負け(2)
+// 詳　細：三すくみ判定処理
+//****************************************************************************
+int CFixedEnemy::PriIsJudgeTrilemma(int src, int dst)
+{
+	int ret = JUDGE_EVEN;
+	// あいこ
+	if (src == dst) { return ret; }
+
+	// 赤：0、緑：1、青：2
+	if ((src == ATTRIBUTE_TYPE_RED && dst == ATTRIBUTE_TYPE_GREEN) ||
+		(src == ATTRIBUTE_TYPE_GREEN && dst == ATTRIBUTE_TYPE_BLUE) ||
+		(src == ATTRIBUTE_TYPE_BLUE && dst == ATTRIBUTE_TYPE_RED))
+	{
+		ret = JUDGE_WIN;
+	}
+	else {
+		ret = JUDGE_LOSE;
+	}
+
+	return ret;
+}
+
+//****************************************************************************
+// 関数名：PriConvertImageIDToAttribute
+// 概　要：画像IDから属性へ変換(Private)
+// 引　数：第1引数　判定元
+// 　　　　第2引数　判定先
+// 戻り値：属性(0：赤、1：緑、2：青)
+// 詳　細：TODO:IDは一旦適当
+//****************************************************************************
+int CFixedEnemy::PriConvertImageIDToAttribute(int id)
+{
+	int attribute = 0;
+	switch (id)
+	{
+	case ENEMY_IMAGE_ID_RED:
+		attribute = ATTRIBUTE_TYPE_RED;
+		break;
+	case ENEMY_IMAGE_ID_GREEN:
+		attribute = ATTRIBUTE_TYPE_GREEN;
+		break;
+	case ENEMY_IMAGE_ID_BLUE:
+		attribute = ATTRIBUTE_TYPE_BLUE;
+		break;
+	case ENEMY_IMAGE_ID_BLACK:
+		attribute = m_scheduleList[m_scheduleCount];
+		m_scheduleCount++;
+		break;
+	default:
+		break;
+	}
+	return attribute;
 }
 
 } // namespace GameObject

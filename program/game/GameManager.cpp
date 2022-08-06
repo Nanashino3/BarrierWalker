@@ -7,12 +7,14 @@
 #include "ShareInfo/CDocGameInfo.h"
 #include "Sound/CSoundManager.h"
 #include "Utility/CImageManager.h"
+#include "Utility/CScreenEffect.h"
 
 GameManager* GameManager::m_instance = nullptr;
 GameManager::GameManager()
 {
 	Sound::CSoundManager::CreateInstance();
 	Utility::CImageManager::CreateInstance();
+	Utility::CScreenEffect::CreateInstance();
 	m_docGameInfo = ShareInfo::CDocGameInfo::GetInstance();
 	m_sceneControl = new Sequence::CPrimaryController();
 }
@@ -61,6 +63,8 @@ bool GameManager::Update(float deltaTime)
 		delete m_sceneControl;
 		ShareInfo::CDocGameInfo::DestroyInstance();
 		Sound::CSoundManager::DestroyInstance();
+		Utility::CImageManager::DestroyInstance();
+		Utility::CScreenEffect::DestroyInstance();
 
 		return false;
 	}

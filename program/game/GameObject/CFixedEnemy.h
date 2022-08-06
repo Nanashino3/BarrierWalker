@@ -23,8 +23,11 @@ public:
 	virtual void Draw(ShareInfo::CDocGameInfo&) final;
 
 private:
+	void PriEnemyRandom();
 	bool PriShootStartTrigger(int, ShareInfo::CDocGameInfo&);
 	bool PriBulletCollision(tnl::Vector3&, S_ENEMY_INFO&, ShareInfo::CDocGameInfo&);
+	int PriIsJudgeTrilemma(int, int);
+	int PriConvertImageIDToAttribute(int);
 
 private:
 	// ’e‚ğ‘Å‚¿o‚·•ûŒü
@@ -47,6 +50,8 @@ private:
 	// “GƒLƒƒƒ‰î•ñ
 	std::vector<GameObject::S_ENEMY_INFO> m_enemys;
 
+	std::vector<int> m_scheduleList;
+	int m_scheduleCount;
 	Sound::CSoundManager* m_soundManager;
 };
 

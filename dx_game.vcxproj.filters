@@ -115,9 +115,6 @@
     <ClCompile Include="program\game\Ui\CUiController.cpp">
       <Filter>program\game\Ui</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\Utility\CUtility.cpp">
-      <Filter>program\game\Utility</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\Ui\CUiBarrier.cpp">
       <Filter>program\game\Ui</Filter>
     </ClCompile>
@@ -198,6 +195,9 @@
     </ClCompile>
     <ClCompile Include="program\game\Function\CLifePoint.cpp">
       <Filter>program\game\Function</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Utility\CScreenEffect.cpp">
+      <Filter>program\game\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

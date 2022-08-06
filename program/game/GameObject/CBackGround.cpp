@@ -30,8 +30,8 @@ void CBackGround::Initialize(ShareInfo::CDocGameInfo& info)
 {
 	int index = info.GetStageIndex();
 	std::string fileList[] = {
-		//"resource/background/stage1_bg.png",
-		//"resource/background/stage2_bg.png",
+		"resource/background/stage1_bg.png",
+		"resource/background/stage2_bg.png",
 		"resource/background/stage3_bg.png"
 	};
 	m_gfxHdl = Utility::CImageManager::GetInstance()->LoadGraphEx(fileList[index].c_str());

@@ -39,8 +39,8 @@ void CItemManager::Initialize(ShareInfo::CDocGameInfo& info)
 	int index = info.GetStageIndex();
 	// ínå`CSVì«çûóp
 	std::string fileList[] = {
-		//"resource/item/item_layout_1.csv",
-		//"resource/item/item_layout_2.csv",
+		"resource/item/item_layout_1.csv",
+		"resource/item/item_layout_2.csv",
 		"resource/item/item_layout_3.csv"
 	};
 	std::vector<std::vector<std::string>> itemDatas = tnl::LoadCsv(fileList[index].c_str());

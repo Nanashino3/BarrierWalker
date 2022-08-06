@@ -16,7 +16,7 @@
     <ClCompile Include="program\game\CGameDirector.cpp" />
     <ClCompile Include="program\game\Function\CBarrier.cpp" />
     <ClCompile Include="program\game\Function\CFunctionController.cpp" />
-    <ClCompile Include="program\game\Function\CHitPoint.cpp" />
+    <ClCompile Include="program\game\Function\CLifePoint.cpp" />
     <ClCompile Include="program\game\Function\CStageControl.cpp" />
     <ClCompile Include="program\game\GameManager.cpp" />
     <ClCompile Include="program\game\GameObject\AFixedObject.cpp" />

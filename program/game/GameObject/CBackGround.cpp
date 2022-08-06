@@ -24,13 +24,13 @@ CBackGround::CBackGround()
 
 CBackGround::~CBackGround()
 {
-	Utility::DeleteGraphEx(m_gfxHdl);
+	Utility::CImageManager::GetInstance()->DeleteGraphEx(m_gfxHdl);
 }
 
 void CBackGround::Initialize(ShareInfo::CDocGameInfo& info)
 {
 	int index = info.GetStageIndex();
-	m_gfxHdl = Utility::LoadGraphEx(g_images[index].c_str());
+	m_gfxHdl = Utility::CImageManager::GetInstance()->LoadGraphEx(g_images[index].c_str());
 
 	m_posX = FIRST_POS_X - (info.GetScreenWidth() >> 1);
 	m_posY = FIRST_POS_Y - (info.GetScreenHeight() >> 1);

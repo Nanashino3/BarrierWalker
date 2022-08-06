@@ -1,7 +1,10 @@
 #ifndef CGAMEDIRECTOR_H_
 #define CGAMEDIRECTOR_H_
 
+#include <vector>
+
 namespace GameObject{
+	class AFixedObject;
 	class AMoveObject;
 	class CMoveObjectManager;
 }
@@ -27,6 +30,7 @@ private:
 	Function::CFunctionController* m_functionController;
 	ShareInfo::CDocGameInfo* m_docGameInfo;
 	Ui::CUiController* m_uiController;
+	std::vector<GameObject::AFixedObject*> m_fixedObjects;
 };
 
 #endif // #ifndef CGAMEDIRECTOR_H_

@@ -20,15 +20,15 @@ CTitleScene::CTitleScene()
 , m_selectMenu(-1)
 {
 	// ”wŒi‰æ‘œ‚Ì“Ç‚Ýž‚Ý
-	m_bgGfxHdl = Utility::LoadGraphEx("resource/pipo-bg003a.jpg");
+	m_bgGfxHdl = Utility::CImageManager::GetInstance()->LoadGraphEx("resource/pipo-bg003a.jpg");
 	m_soundManager = Sound::CSoundManager::GetInstance();
-	m_titleGfxHdl = Utility::LoadGraphEx("resource/string/title1.png");
+	m_titleGfxHdl = Utility::CImageManager::GetInstance()->LoadGraphEx("resource/string/title1.png");
 }
 
 CTitleScene::~CTitleScene()
 {
-	Utility::DeleteGraphEx(m_bgGfxHdl);
-	Utility::DeleteGraphEx(m_titleGfxHdl);
+	Utility::CImageManager::GetInstance()->DeleteGraphEx(m_bgGfxHdl);
+	Utility::CImageManager::GetInstance()->DeleteGraphEx(m_titleGfxHdl);
 }
 
 //****************************************************************************

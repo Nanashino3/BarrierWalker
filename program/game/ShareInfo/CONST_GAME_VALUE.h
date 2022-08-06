@@ -59,9 +59,6 @@ const int JUDGE_EVEN = 0;	// 判定：引分
 const int JUDGE_WIN	 = 1;	// 判定：勝ち
 const int JUDGE_LOSE = 2;	// 判定：負け
 
-// HP関連定数
-const int MAX_HIT_POINT = 3;	// 最大ヒットポイント
-
 // 衝突関連定数
 const int NO_HIT		= 0;	// ヒットなし
 const int CORRECT_LEFT	= 1;	// 左方向

@@ -48,12 +48,12 @@ namespace GameObject
 {
 CMoveObjectManager::CMoveObjectManager()
 {
-	m_gfxHdl = Utility::LoadGraphEx("resource/move_floor.png");
+	m_gfxHdl = Utility::CImageManager::GetInstance()->LoadGraphEx("resource/move_floor.png");
 }
 
 CMoveObjectManager::~CMoveObjectManager()
 {
-	Utility::DeleteGraphEx(m_gfxHdl);
+	Utility::CImageManager::GetInstance()->DeleteGraphEx(m_gfxHdl);
 }
 
 void CMoveObjectManager::Initialize(ShareInfo::CDocGameInfo& info)

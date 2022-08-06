@@ -1,37 +1,35 @@
-//*************************************************************
-// UI管理者クラス
-//*************************************************************
+//****************************************************************************
+// ファイル名：CUiController(UI管理者)
+// 作　成　日：2022/08/06
 #include "CUiController.h"
 
 #include "CUiBarrier.h"
 #include "CUiTrilemma.h"
 #include "CUiTimeLimit.h"
 #include "CUiCoinNumber.h"
-#include "../../dxlib_ext/dxlib_ext.h"
 
-namespace{ std::vector<Ui::AUi*> g_ui; }
 namespace Ui
 {
 CUiController::CUiController()
 {
 	AUi* ui = nullptr;
 	ui = new CUiBarrier();		// バリアUI
-	g_ui.push_back(ui);
+	m_uiList.push_back(ui);
 	ui = new CUiTrilemma();		// 三すくみUI
-	g_ui.push_back(ui);
+	m_uiList.push_back(ui);
 	ui = new CUiTimeLimit();	// 制限時間UI
-	g_ui.push_back(ui);
+	m_uiList.push_back(ui);
 	ui = new CUiCoinNumber();	// コイン数UI
-	g_ui.push_back(ui);
+	m_uiList.push_back(ui);
 }
 
 CUiController::~CUiController()
 {
-	for(int i = 0; i < g_ui.size(); i++){
-		delete g_ui[i];
+	for(int i = 0; i < m_uiList.size(); i++){
+		delete m_uiList[i];
 	}
-	g_ui.clear();
-	g_ui.shrink_to_fit();
+	m_uiList.clear();
+	m_uiList.shrink_to_fit();
 }
 
 //****************************************************************************
@@ -43,8 +41,8 @@ CUiController::~CUiController()
 //****************************************************************************
 void CUiController::Initialize(ShareInfo::CDocGameInfo& info)
 {
-	for(int i = 0; i < g_ui.size(); i++){
-		g_ui[i]->Initialize(info);
+	for(int i = 0; i < m_uiList.size(); i++){
+		m_uiList[i]->Initialize(info);
 	}
 }
 
@@ -57,8 +55,8 @@ void CUiController::Initialize(ShareInfo::CDocGameInfo& info)
 //****************************************************************************
 void CUiController::Update(ShareInfo::CDocGameInfo& info)
 {
-	for(int i = 0; i < g_ui.size(); i++){
-		g_ui[i]->Update(info);
+	for(int i = 0; i < m_uiList.size(); i++){
+		m_uiList[i]->Update(info);
 	}
 }
 
@@ -71,8 +69,8 @@ void CUiController::Update(ShareInfo::CDocGameInfo& info)
 //****************************************************************************
 void CUiController::Draw(ShareInfo::CDocGameInfo& info)
 {
-	for(int i = 0; i < g_ui.size(); i++){
-		g_ui[i]->Draw(info);
+	for(int i = 0; i < m_uiList.size(); i++){
+		m_uiList[i]->Draw(info);
 	}
 }
 

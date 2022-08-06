@@ -30,14 +30,14 @@ namespace GameObject
 {
 CItemManager::CItemManager()
 {
-	g_gfxHdl[ITEM_KIND_COIN] = Utility::LoadGraphEx("resource/item/sticon2b-3.png");
+	g_gfxHdl[ITEM_KIND_COIN] = Utility::CImageManager::GetInstance()->LoadGraphEx("resource/item/sticon2b-3.png");
 	m_soundManager = Sound::CSoundManager::GetInstance();
 }
 	
 CItemManager::~CItemManager()
 {
 	for(int i = 0; i < MAX_ITEM_KIND; i++){
-		Utility::DeleteGraphEx(g_gfxHdl[i]);
+		Utility::CImageManager::GetInstance()->DeleteGraphEx(g_gfxHdl[i]);
 	}
 }
 

@@ -1,52 +1,40 @@
-//*************************************************************
-// 三すくみUIクラス
-//*************************************************************
+//****************************************************************************
+// ファイル名：CUiTrilemma(三すくみUI)
+// 作　成　日：2022/08/06
+#include <string>
 #include "CUiTrilemma.h"
-
 #include "../Utility/CImageManager.h"
-#include "../ShareInfo/CDocGameInfo.h"
-
-namespace{
-const std::vector<std::string> g_images = {
-	"resource/sticon1b-3.png",	// 赤
-	"resource/sticon1d-3.png",	// 緑
-	"resource/sticon1c-3.png"	// 青
-};
-
-std::vector<int> g_gfxHdl(MAX_ATTRIBUTE_TYPE);
-const float EX_RATE = 0.75f;
-
-// 画像読込用定数
-const int MAX_ICON_NUM = 270;
-const int X_NUM = 30;
-const int Y_NUM = 9;
-const int RECT_SIZE = SIZE_32;
-int g_iconGfxHdl[MAX_ICON_NUM] = {0};
-
-const int ARROW_LEFT		= 187;
-const int ARROW_RIGHT_UP	= 196;
-const int ARROW_RIGHT_DOWN	= 202;
-
-}
+#include "../ShareInfo/CONST_GAME_VALUE.h"
 
 namespace Ui
 {
 CUiTrilemma::CUiTrilemma()
 {
 	// 三すくみ画像登録
-	for(int i = 0; i < g_images.size(); i++){
-		g_gfxHdl[i] = Utility::LoadGraphEx(g_images[i].c_str());
+	std::vector<std::string> fileList = {
+		"resource/sticon1b-3.png",	// 赤
+		"resource/sticon1d-3.png",	// 緑
+		"resource/sticon1c-3.png"	// 青
+	};
+	for(int i = 0; i < fileList.size(); i++){
+		int hdl = Utility::CImageManager::GetInstance()->LoadGraphEx(fileList[i].c_str());
+		m_attributeGfxHdl.push_back(hdl);
 	}
-	LoadDivGraph("resource/ui/pipo-emotion.png", MAX_ICON_NUM, X_NUM, Y_NUM, RECT_SIZE, RECT_SIZE, g_iconGfxHdl);
+	// アイコン画像を登録
+	LoadDivGraph("resource/ui/pipo-emotion.png",
+				 MAX_ICON_IMAGE_NUM,
+				 ICON_IMAGE_NUMX, ICON_IMAGE_NUMY,
+				 ICON_RECT_SIZE, ICON_RECT_SIZE,
+				 m_iconGfxHdl);
 }
 
 CUiTrilemma::~CUiTrilemma()
 {
-	for(int i = 0; i < g_images.size(); i++){
-		Utility::DeleteGraphEx(g_gfxHdl[i]);
+	for(int i = 0; i < m_attributeGfxHdl.size(); i++){
+		Utility::CImageManager::GetInstance()->DeleteGraphEx(m_attributeGfxHdl[i]);
 	}
-	for(int i = 0; i < MAX_ICON_NUM; i++){
-		DeleteGraph(g_iconGfxHdl[i]);
+	for(int i = 0; i < MAX_ICON_IMAGE_NUM; i++){
+		DeleteGraph(m_iconGfxHdl[i]);
 	}
 }
 
@@ -59,13 +47,13 @@ CUiTrilemma::~CUiTrilemma()
 //****************************************************************************
 void CUiTrilemma::Draw(ShareInfo::CDocGameInfo&)
 {
-	DrawRotaGraph(350, 120, EX_RATE, 0, g_gfxHdl[ATTRIBUTE_TYPE_RED],   true); // 赤
-	DrawRotaGraph(380,  80, EX_RATE, 0, g_gfxHdl[ATTRIBUTE_TYPE_GREEN], true); // 緑
-	DrawRotaGraph(410, 120, EX_RATE, 0, g_gfxHdl[ATTRIBUTE_TYPE_BLUE],  true); // 青
+	DrawRotaGraph(350, 120, TRILEMMA_EXRATE, 0, m_attributeGfxHdl[ATTRIBUTE_TYPE_RED],   true); // 赤
+	DrawRotaGraph(380,  80, TRILEMMA_EXRATE, 0, m_attributeGfxHdl[ATTRIBUTE_TYPE_GREEN], true); // 緑
+	DrawRotaGraph(410, 120, TRILEMMA_EXRATE, 0, m_attributeGfxHdl[ATTRIBUTE_TYPE_BLUE],  true); // 青
 
-	DrawRotaGraph(380, 120, EX_RATE, 0, g_iconGfxHdl[ARROW_LEFT], true);
-	DrawRotaGraph(360, 100, EX_RATE, 0, g_iconGfxHdl[ARROW_RIGHT_UP], true);
-	DrawRotaGraph(395,  95, EX_RATE, 0, g_iconGfxHdl[ARROW_RIGHT_DOWN], true);
+	DrawRotaGraph(380, 120, TRILEMMA_EXRATE, 0, m_iconGfxHdl[TRILEMMA_ARROW_LEFT], true);
+	DrawRotaGraph(360, 100, TRILEMMA_EXRATE, 0, m_iconGfxHdl[TRILEMMA_ARROW_RIGHT_UP], true);
+	DrawRotaGraph(395,  95, TRILEMMA_EXRATE, 0, m_iconGfxHdl[TRILEMMA_ARROW_RIGHT_DOWN], true);
 }
 
 } // namespace Ui

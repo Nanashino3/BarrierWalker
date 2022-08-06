@@ -1,6 +1,7 @@
 #ifndef UI_CUITIMELIMIT_H_
 #define UI_CUITIMELIMIT_H_
 
+#include <vector>
 #include "AUi.h"
 
 namespace Ui
@@ -18,6 +19,7 @@ public:
 private:
 	float m_elapsed;
 	int m_timeLimit;
+	std::vector<int> m_timeLimits;
 };
 
 } // namespace Ui

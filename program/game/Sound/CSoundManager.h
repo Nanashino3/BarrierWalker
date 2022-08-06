@@ -1,6 +1,9 @@
 #ifndef SOUND_CSOUNDMANAGER_H_
 #define SOUND_CSOUNDMANAGER_H_
 
+#include <vector>
+#include <string>
+
 namespace Sound
 {
 class CSoundManager
@@ -27,6 +30,14 @@ private:
 
 private:
 	static CSoundManager* s_myInstance;
+
+	std::vector<std::vector<std::string>> m_soundList;
+	struct SOUND_INFO {
+		int id;
+		int kind;
+		int hdl;
+	};
+	std::vector<SOUND_INFO> m_bgmList, m_seList;
 };
 
 } // namespace Sound

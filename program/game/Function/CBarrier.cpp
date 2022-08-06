@@ -1,33 +1,11 @@
-//*************************************************************
-// バリア機能クラス
-//*************************************************************
+//****************************************************************************
+// ファイル名：CBarrier(バリア)
+// 作　成　日：2022/08/06
 #include "CBarrier.h"
 
 #include "../Camera/CCamera2D.h"
 #include "../ShareInfo/CDocGameInfo.h"
-#include "../ShareInfo/S_BARRIER_INFO.h"
-#include "../ShareInfo/CONST_GAME_VALUE.h"
 #include "../Sound/CSoundManager.h"
-
-namespace{
-// アニメーション関連
-const int ANIM_FRAME_MAX = 10;
-// 画像読込用定数
-const int ALL_NUM = 10;
-const int X_NUM	  = 5;
-const int Y_NUM   = 2;
-const int X_SIZE  = 600 / X_NUM;
-const int Y_SIZE  = 240 / Y_NUM;
-// 使用画像設定
-const std::vector<std::string> g_images = {
-	"resource/pipo-btleffect111g.png",	// 赤
-	"resource/pipo-btleffect111d.png",	// 緑
-	"resource/pipo-btleffect111e.png"	// 青
-};
-
-int g_gfxHdl[MAX_ATTRIBUTE_TYPE][ANIM_FRAME_MAX] = {0};
-std::vector<ShareInfo::S_BARRIER_INFO> g_barriers;
-}
 
 namespace Function
 {
@@ -36,13 +14,23 @@ CBarrier::CBarrier(unsigned int function_type)
 , m_animType(BARRIER_CURRENT)
 , m_animFrame(0)
 , m_soundManager(nullptr)
-{}
+{
+	std::vector<std::string> fileList = {
+		"resource/pipo-btleffect111g.png",	// 赤
+		"resource/pipo-btleffect111d.png",	// 緑
+		"resource/pipo-btleffect111e.png"	// 青
+	};
+	for(int i = 0; i < fileList.size(); ++i){
+		std::string readFile = fileList[i];
+		m_imageList.push_back(readFile);
+	}
+}
 
 CBarrier::~CBarrier()
 {
 	for(int i = 0; i < MAX_ATTRIBUTE_TYPE; i++){
-		for(int j = 0; j < ANIM_FRAME_MAX; j++){
-			DeleteGraph(g_gfxHdl[i][j]);
+		for(int j = 0; j < MAX_BARRIER_ANIM_FRAME; j++){
+			DeleteGraph(m_gfxHdl[i][j]);
 		}
 	}
 }
@@ -56,18 +44,22 @@ CBarrier::~CBarrier()
 //****************************************************************************
 void CBarrier::Initialize()
 {
-	for (int i = 0; i < g_images.size(); i++) {
-		// 画像のロード
-		LoadDivGraph(g_images[i].c_str(), ALL_NUM, X_NUM, Y_NUM, X_SIZE, Y_SIZE, g_gfxHdl[i]);
+	// 画像のロード
+	for (int i = 0; i < m_imageList.size(); i++) {
+		LoadDivGraph(m_imageList[i].c_str(),
+					 MAX_BARRIER_IMAGE_NUM,
+					 BARRIER_IMAGE_NUMX, BARRIER_IMAGE_NUMX,
+					 BARRIER_IMAGE_SIZEX, BARRIER_IMAGE_SIZEY,
+					 m_gfxHdl[i]);
 	}
 	m_soundManager = Sound::CSoundManager::GetInstance();
 
-	g_barriers.clear();
-	g_barriers.shrink_to_fit();
+	m_barriers.clear();
+	m_barriers.shrink_to_fit();
 	for(int i = 0; i < MAX_ATTRIBUTE_TYPE; i++){
 		// バリア情報設定
 		ShareInfo::S_BARRIER_INFO barrier = { i, MAX_ENERGY, false, false };
-		g_barriers.push_back(barrier);
+		m_barriers.push_back(barrier);
 	}
 }
 
@@ -102,30 +94,30 @@ void CBarrier::Update(ShareInfo::CDocGameInfo& info)
 	if(isChangeBarrier){ PriSwap(change_type, function_type, next, prev); }
 
 	// バリア展開 and バリアが空ではない
-	if(tnl::Input::IsKeyDownTrigger(eKeys::KB_B) && !g_barriers[BARRIER_CURRENT].isEmpty){
+	if(tnl::Input::IsKeyDownTrigger(eKeys::KB_B) && !m_barriers[BARRIER_CURRENT].isEmpty){
 		if(function_type & m_function_type){
 			// バリアOFF
 			function_type &= ~m_function_type;
-			g_barriers[BARRIER_CURRENT].isBarrier = false;
+			m_barriers[BARRIER_CURRENT].isBarrier = false;
 			m_soundManager->StopSE(SE_ID_BARRIER);
 		}else{
 			// バリアON
 			function_type |= m_function_type;
-			g_barriers[BARRIER_CURRENT].isBarrier = true;
+			m_barriers[BARRIER_CURRENT].isBarrier = true;
 			m_soundManager->PlaySE(SE_ID_BARRIER);
 		}
 	}
 
 	// バリア増減処理
-	for(int count = 0; count < g_barriers.size(); count++){
+	for(int count = 0; count < m_barriers.size(); count++){
 		// バリア切替中ではない
 		if(!(change_type & CHANGE_ON)){
 			// 増減処理
 			PriFluctuation(function_type, count, info);
 		}
 		// 比率計算とUI入替え処理のために切替の有無にかかわらず設定する
-		info.SetBarrierEnergy(count, g_barriers[count].energy);
-		info.SetBarrierColor(count, g_barriers[count].color);
+		info.SetBarrierEnergy(count, m_barriers[count].energy);
+		info.SetBarrierColor(count, m_barriers[count].color);
 	}
 	info.SetChangeType(change_type);
 	info.SetFunctionType(function_type);
@@ -146,12 +138,12 @@ void CBarrier::Draw(ShareInfo::CDocGameInfo& info)
 	int screen_half_h = info.GetScreenHeight() >> 1;
 
 	unsigned int change_type = info.GetChangeType();
-	for(int i = 0; i < g_barriers.size(); i++){
+	for(int i = 0; i < m_barriers.size(); i++){
 		// バリア切替中 or バリアを展開していない場合は表示しない
-		if((change_type & CHANGE_ON) || !g_barriers[i].isBarrier){ continue; }
+		if((change_type & CHANGE_ON) || !m_barriers[i].isBarrier){ continue; }
 		int view_pos_x = pos.x - camera->GetPosition().x + screen_half_w;
 		int view_pos_y = pos.y - camera->GetPosition().y + screen_half_h;
-		DrawRotaGraph(view_pos_x, view_pos_y, 1.0f, 0, g_gfxHdl[m_animType][m_animFrame], true);
+		DrawRotaGraph(view_pos_x, view_pos_y, 1.0f, 0, m_gfxHdl[m_animType][m_animFrame], true);
 	}
 }
 
@@ -174,15 +166,15 @@ void CBarrier::PriSwap(unsigned int& change_type, unsigned int& function_type, i
 
 	// 切替フラグを立てる
 	change_type |= CHANGE_ON;
-	g_barriers[BARRIER_CURRENT].isBarrier = false;
+	m_barriers[BARRIER_CURRENT].isBarrier = false;
 
-	ShareInfo::S_BARRIER_INFO temp = g_barriers[BARRIER_CURRENT];
-	g_barriers[BARRIER_CURRENT] = g_barriers[next];
-	g_barriers[next] = g_barriers[prev];
-	g_barriers[prev] = temp;
+	ShareInfo::S_BARRIER_INFO temp = m_barriers[BARRIER_CURRENT];
+	m_barriers[BARRIER_CURRENT] = m_barriers[next];
+	m_barriers[next] = m_barriers[prev];
+	m_barriers[prev] = temp;
 
 	// 現在の色にアニメーション種別を合わせる
-	m_animType = g_barriers[BARRIER_CURRENT].color;
+	m_animType = m_barriers[BARRIER_CURRENT].color;
 }
 
 //****************************************************************************
@@ -196,14 +188,14 @@ void CBarrier::PriSwap(unsigned int& change_type, unsigned int& function_type, i
 //****************************************************************************
 void CBarrier::PriFluctuation(unsigned int& function_type, int num, ShareInfo::CDocGameInfo& info)
 {
-	if(g_barriers[num].isBarrier){
-		g_barriers[num].energy = (g_barriers[num].energy > 0.0f) ? g_barriers[num].energy - 0.35f : 0.0f;
+	if(m_barriers[num].isBarrier){
+		m_barriers[num].energy = (m_barriers[num].energy > 0.0f) ? m_barriers[num].energy - 0.35f : 0.0f;
 		// バリアエネルギーが空か
-		if(g_barriers[num].energy == 0.0f){
-			g_barriers[num].isEmpty = true;
-			g_barriers[num].isBarrier = false;
+		if(m_barriers[num].energy == 0.0f){
+			m_barriers[num].isEmpty = true;
+			m_barriers[num].isBarrier = false;
 			// バリア機能をOFFする
-			if(m_animType == g_barriers[num].color){ function_type &= ~m_function_type; }
+			if(m_animType == m_barriers[num].color){ function_type &= ~m_function_type; }
 		}
 
 		// アニメーション処理
@@ -212,12 +204,12 @@ void CBarrier::PriFluctuation(unsigned int& function_type, int num, ShareInfo::C
 		if(anim_time_count > 0.05f){
 			anim_time_count = 0.0f;
 			m_animFrame++;
-			m_animFrame %= (ANIM_FRAME_MAX / 2);
+			m_animFrame %= (MAX_BARRIER_ANIM_FRAME / 2);
 		}
 	}else{
 		// バリア未使用 or バリアを使い切った場合
-		g_barriers[num].energy = (g_barriers[num].energy < MAX_ENERGY) ? g_barriers[num].energy + 0.1f : MAX_ENERGY;
-		if(g_barriers[num].energy == MAX_ENERGY){ g_barriers[num].isEmpty = false; }
+		m_barriers[num].energy = (m_barriers[num].energy < MAX_ENERGY) ? m_barriers[num].energy + 0.1f : MAX_ENERGY;
+		if(m_barriers[num].energy == MAX_ENERGY){ m_barriers[num].isEmpty = false; }
 	}
 }
 

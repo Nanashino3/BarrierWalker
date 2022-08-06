@@ -139,9 +139,6 @@
     <ClCompile Include="program\game\Function\CFunctionController.cpp">
       <Filter>program\game\Function</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\Function\CHitPoint.cpp">
-      <Filter>program\game\Function</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\Function\CStageControl.cpp">
       <Filter>program\game\Function</Filter>
     </ClCompile>
@@ -198,6 +195,9 @@
     </ClCompile>
     <ClCompile Include="program\game\Sequence\PlayGame\AMenuScene.cpp">
       <Filter>program\game\Sequence\PlayGame</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Function\CLifePoint.cpp">
+      <Filter>program\game\Function</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

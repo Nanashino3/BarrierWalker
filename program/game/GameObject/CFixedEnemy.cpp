@@ -58,7 +58,7 @@ CFixedEnemy::CFixedEnemy()
 	LoadDivGraph("resource/block_ds.png", MAX_MAP_CHIP, MAP_CHIP_X_NUM, MAP_CHIP_Y_NUM, MAP_CHIP_W, MAP_CHIP_H, g_gfxHdl);
 	for(int i = 0; i < g_bulletImage.size(); i++){
 		// ’e‰æ‘œ“Çž
-		g_bulletGfxHdl[i] = Utility::LoadGraphEx(g_bulletImage[i].c_str());
+		g_bulletGfxHdl[i] = Utility::CImageManager::GetInstance()->LoadGraphEx(g_bulletImage[i].c_str());
 	}
 
 	m_soundManager = Sound::CSoundManager::GetInstance();
@@ -70,7 +70,7 @@ CFixedEnemy::~CFixedEnemy()
 		DeleteGraph(g_gfxHdl[i]);
 	}
 	for(int i = 0; i < g_bulletImage.size(); i++){
-		Utility::DeleteGraphEx(g_bulletGfxHdl[i]);
+		Utility::CImageManager::GetInstance()->DeleteGraphEx(g_bulletGfxHdl[i]);
 	}
 }
 

@@ -1,20 +1,20 @@
-//*************************************************************
-// タイマーUIクラス
-//*************************************************************
+//****************************************************************************
+// ファイル名：CUiTimeLimit(制限時間UI)
+// 作　成　日：2022/08/06
 #include "CUiTimeLimit.h"
-
 #include "../ShareInfo/CDocGameInfo.h"
-
-namespace {
-const int TIME_LIMIT[] = { 250, 250, 250};
-}
 
 namespace Ui
 {
 CUiTimeLimit::CUiTimeLimit()
 : m_elapsed(0)
 , m_timeLimit(0)
-{}
+{
+	std::vector<int> timeLimits = { 250, 250, 250 };
+	for(int i = 0; i < timeLimits.size(); ++i){
+		m_timeLimits.push_back(timeLimits[i]);
+	}
+}
 
 CUiTimeLimit::~CUiTimeLimit()
 {}
@@ -28,7 +28,7 @@ CUiTimeLimit::~CUiTimeLimit()
 //****************************************************************************
 void CUiTimeLimit::Initialize(ShareInfo::CDocGameInfo& info)
 {
-	m_timeLimit = TIME_LIMIT[info.GetStageIndex()];
+	m_timeLimit = m_timeLimits[info.GetStageIndex()];
 }
 
 //****************************************************************************

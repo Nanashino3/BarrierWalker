@@ -1,20 +1,58 @@
+//****************************************************************************
+// ファイル名：CImageManager(画像管理者)
+// 作　成　日：2022/08/06
 #include "CImageManager.h"
-
 #include "../../dxlib_ext/dxlib_ext.h"
-#include <vector>
-
-namespace{
-struct IMAGE_DATA {
-	TCHAR name[MAX_PATH];
-	int imageID;
-	int counter;
-};
-std::vector<IMAGE_DATA> images;
-}
 
 namespace Utility
 {
-int LoadGraphEx(const TCHAR* name)
+CImageManager* CImageManager::s_instance = nullptr;
+
+//****************************************************************************
+// 関数名：CreateInstance
+// 概　要：インスタンス生成
+// 引　数：なし
+// 戻り値：なし
+// 詳　細：
+//****************************************************************************
+void CImageManager::CreateInstance()
+{
+	s_instance = new CImageManager();
+}
+
+//****************************************************************************
+// 関数名：DestroyInstance
+// 概　要：インスタンス破棄
+// 引　数：なし
+// 戻り値：なし
+// 詳　細：
+//****************************************************************************
+void CImageManager::DestroyInstance()
+{
+	delete s_instance;
+}
+
+//****************************************************************************
+// 関数名：GetInstance
+// 概　要：インスタンス取得
+// 引　数：なし
+// 戻り値：なし
+// 詳　細：
+//****************************************************************************
+CImageManager* CImageManager::GetInstance()
+{
+	if(s_instance == nullptr){ CreateInstance(); }
+	return s_instance;
+}
+
+//****************************************************************************
+// 関数名：LoadGraphEx
+// 概　要：画像ロード(ラッパー)
+// 引　数：第1引数	読み込みファイル
+// 戻り値：なし
+// 詳　細：
+//****************************************************************************
+int CImageManager::LoadGraphEx(const TCHAR* name)
 {
 	// 既に登録済か確認
 	for(auto& image : images){
@@ -36,7 +74,14 @@ int LoadGraphEx(const TCHAR* name)
 	return data.imageID;
 }
 
-void DeleteGraphEx(int id)
+//****************************************************************************
+// 関数名：DeleteGraphEx
+// 概　要：画像破棄(ラッパー)
+// 引　数：第1引数	破棄する画像ID
+// 戻り値：なし
+// 詳　細：
+//****************************************************************************
+void CImageManager::DeleteGraphEx(int id)
 {
 	// IDが無効値なら抜ける
 	if(id < 0){ return; }
@@ -55,4 +100,4 @@ void DeleteGraphEx(int id)
 	}
 }
 
-}
+} // namespace Utility

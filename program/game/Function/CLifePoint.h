@@ -1,27 +1,29 @@
-#ifndef FUNCTION_CHITPOINT_H_
-#define FUNCTION_CHITPOINT_H_
+#ifndef FUNCTION_CLIFEPOINT_H_
+#define FUNCTION_CLIFEPOINT_H_
 
 #include "AFunction.h"
+#include "CONST_FUNCTION_VALUE.h"
 
 namespace Sound{ class CSoundManager; }
 namespace Function
 {
-class CHitPoint : public AFunction
+class CLifePoint : public AFunction
 {
 public:
-	CHitPoint(unsigned int type = 0);
-	virtual ~CHitPoint();
+	CLifePoint(unsigned int type = 0);
+	virtual ~CLifePoint();
 
 	virtual void Initialize() final;
 	virtual void Update(ShareInfo::CDocGameInfo&) final;
 	virtual void Draw(ShareInfo::CDocGameInfo&) final;
 
 private:
-	int m_hitPoint;
+	int m_lifePoint;
 	bool m_hitting;
 	Sound::CSoundManager* m_soundManager;
+	int m_gfxHdl[MAX_LIFE_POINT];
 };
 
 } // namespace Function
 
-#endif // #ifndef FUNCTION_CHITPOINT_H_
+#endif // #ifndef FUNCTION_CLIFEPOINT_H_

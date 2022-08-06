@@ -1,27 +1,14 @@
-//*************************************************************
-// 機能管理者
-//*************************************************************
+//****************************************************************************
+// ファイル名：CFunctionController(機能管理者)
+// 作　成　日：2022/08/06
 #include "CFunctionController.h"
 
-#include "CHitPoint.h"
+#include "CLifePoint.h"
 #include "CStageControl.h"
 #include "CBarrier.h"
-#include "../ShareInfo/CDocGameInfo.h"
-#include "..//ShareInfo/CONST_GAME_VALUE.h"
-
-namespace{
-std::vector<Function::AFunction*> g_functions;
-}
 
 namespace Function
 {
-//****************************************************************************
-// 関数名：CFunctionController
-// 概　要：コンストラクタ
-// 引　数：なし
-// 戻り値：なし
-// 詳　細：機能の生成と設定
-//****************************************************************************
 CFunctionController::CFunctionController()
 {
 	AFunction* function = nullptr;
@@ -29,32 +16,25 @@ CFunctionController::CFunctionController()
 	//************************
 	// 常に使用する機能
 	//************************
-	function = new CHitPoint();		// HP
-	g_functions.push_back(function);
+	function = new CLifePoint();		// HP
+	m_functions.push_back(function);
 	function = new CStageControl();	// ステージ管理
-	g_functions.push_back(function);
+	m_functions.push_back(function);
 
 	//************************
 	// 機能の付替え可能
 	//************************
 	function = new CBarrier(FUNCTION_TYPE_BARRIER);	// バリア
-	g_functions.push_back(function);
+	m_functions.push_back(function);
 }
 
-//****************************************************************************
-// 関数名：~CFunctionController
-// 概　要：デストラクタ
-// 引　数：なし
-// 戻り値：なし
-// 詳　細：後処理を行う
-//****************************************************************************
 CFunctionController::~CFunctionController()
 {
-	for(int i = 0; i < g_functions.size(); i++){
-		delete g_functions[i];
+	for(int i = 0; i < m_functions.size(); i++){
+		delete m_functions[i];
 	}
-	g_functions.clear();
-	g_functions.shrink_to_fit();
+	m_functions.clear();
+	m_functions.shrink_to_fit();
 }
 
 //****************************************************************************
@@ -66,8 +46,8 @@ CFunctionController::~CFunctionController()
 //****************************************************************************
 void CFunctionController::Initialize()
 {
-	for(int i = 0; i < g_functions.size(); i++){
-		g_functions[i]->Initialize();
+	for(int i = 0; i < m_functions.size(); i++){
+		m_functions[i]->Initialize();
 	}
 }
 
@@ -80,8 +60,8 @@ void CFunctionController::Initialize()
 //****************************************************************************
 void CFunctionController::Update(ShareInfo::CDocGameInfo& info)
 {
-	for(int i = 0; i < g_functions.size(); i++){
-		g_functions[i]->Update(info);
+	for(int i = 0; i < m_functions.size(); i++){
+		m_functions[i]->Update(info);
 	}
 }
 
@@ -104,8 +84,8 @@ void CFunctionController::Collision(ShareInfo::CDocGameInfo& info)
 //****************************************************************************
 void CFunctionController::Draw(ShareInfo::CDocGameInfo& info)
 {
-	for(int i = 0; i < g_functions.size(); i++){
-		g_functions[i]->Draw(info);
+	for(int i = 0; i < m_functions.size(); i++){
+		m_functions[i]->Draw(info);
 	}
 }
 
